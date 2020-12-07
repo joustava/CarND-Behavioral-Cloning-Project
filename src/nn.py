@@ -1,6 +1,6 @@
 from data import load
 from keras.models import Sequential
-from keas.layers import Dense, Flatten, Lambda
+from keras.layers import Dense, Flatten, Lambda
 from sklearn.model_selection import train_test_split
 from data_stream import generator
 
