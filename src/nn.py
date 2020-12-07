@@ -32,7 +32,7 @@ model = Sequential()
 
 # Preprocessing
 # center around zero with small standard deviation
-modela.add(Lambda(lambda x: x/127.5 - 1., input_shape=input_shape, output_shape=input_shape)
+model.add(Lambda(lambda x: x/127.5 - 1., input_shape=input_shape, output_shape=input_shape)
 
 
 # Layers
