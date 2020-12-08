@@ -1,11 +1,11 @@
 .PHONY: create_video test_model train_model
 
-create_video:
+recording:
 		python ./tools/drive.py .models/model.h5 run1
 		python ./tools/video.py run1 --fps 30
 	
-test_model:
+simulation:
 		python ./tools/drive.py ./models/model.h5
 
-train_model:
+training:
 		python ./src/model.py

@@ -7,7 +7,7 @@ from math import ceil
 
 
 # Hyper params
-epochs = 1
+epochs = 10
 batch_size = 32
 
 
@@ -17,7 +17,7 @@ verbosity = 1
 
 # Data
 input_shape = (160, 320, 3)
-samples = load()
+samples = load_samples()
 training_samples, validation_samples = train_test_split(samples, test_size=0.2)
 steps_per_epoch = ceil(len(training_samples) / batch_size)
 validation_steps = ceil(len(validation_samples) / batch_size)
