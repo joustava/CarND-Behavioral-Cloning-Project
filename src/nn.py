@@ -8,8 +8,6 @@ from math import ceil
 # Hyper params
 epochs = 5
 batch_size = 32
-steps_per_epoch = ceil(len(training_samples)/batch_size)
-validation_steps = ceil(len(validation_samples)/batch_size)
 
 
 # Logging
@@ -20,7 +18,8 @@ verbosity = 1
 input_shape = (160, 320, 3)
 samples = load()
 training_samples, validation_samples = train_test_split(samples, test_size=0.2)
-
+steps_per_epoch = ceil(len(training_samples)/batch_size)
+validation_steps = ceil(len(validation_samples)/batch_size)
 
 # Stream/generator for memory efficiency
 train_generator = generator(training_samples, batch_size=batch_size)
