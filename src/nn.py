@@ -57,6 +57,6 @@ modified_ts = os.path.getmtime(model_file_name)
 # date_time = datetime.datetime.fromtimestamp(
 #     modified_ts).strftime("%Y-%M-%D")
 name, ext = model_file_name.rsplit('.', 1)
-os.rename(model_file_name, "{}_{}.{}".format(name, modified_ts, ext))
+os.rename(model_file_name, "{}_{}.{}".format(name, int(modified_ts), ext))
 
 model.save(model_file_name)
