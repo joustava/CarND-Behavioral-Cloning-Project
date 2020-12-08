@@ -1,4 +1,4 @@
-PHONY: create_video, test_model, train_model
+.PHONY: create_video test_model train_model
 
 create_video:
 		python ./tools/drive.py .models/model.h5 run1
