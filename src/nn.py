@@ -3,7 +3,7 @@ from keras.models import Sequential
 from keras.layers import Dense, Flatten, Lambda
 from sklearn.model_selection import train_test_split
 from data_stream import generator
-
+from math import ceil
 
 # Hyper params
 epochs = 5
