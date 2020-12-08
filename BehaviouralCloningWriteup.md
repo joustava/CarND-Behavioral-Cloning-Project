@@ -158,6 +158,27 @@ For details about how I created the training data, see the next section.
 
 The overall strategy for deriving a model architecture was to incrementally build, train, validate a model and subsequently test the model on the simulator whenever there was significant improvement in accuracy.
 
+The first step was to create a basic project setup for loading the sample data, preparing and preprocessing the data and then train a simple network which only consisted of only a few layers
+
+```python
+# ... omitted
+model = Sequential()
+# Preprocess
+model.add(Lambda(lambda x: x/127.5 - 1.,
+                 input_shape=input_shape, output_shape=input_shape))
+# Layers
+model.add(Flatten())
+model.add(Dense(1))
+model.compile(loss='mse', optimizer='adam')
+# ... omitted
+```
+
+The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01]() 
+
+
+
+
+
 My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
