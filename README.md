@@ -173,11 +173,11 @@ model.compile(loss='mse', optimizer='adam')
 # ... omitted
 ```
 
-The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01]() 
+The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01). 
 
 
 
-
+[TBD]
 
 My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
 
