@@ -55,8 +55,8 @@ model_file_name = './models/model.h5'
 modified_ts = os.path.getmtime(model_file_name)
 
 date_time = datetime.datetime.fromtimestamp(
-    modified_ts).strftime("%b-%d-%y-%H:%M:%S")
-# backup = split
-os.rename(model_file_name, model_file_name+"_"+date_time)
+    modified_ts).strftime("%Y-%M-%D-%H%M")
+name, ext = model_file_name.split('.')
+os.rename(model_file_name, "{}_{}.{}".format(name, date_time, ext)
 
 model.save(model_file_name)
