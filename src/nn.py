@@ -6,7 +6,7 @@ from data_stream import generator
 from math import ceil
 import time
 import os
-
+import datetime
 
 # Hyper params
 epochs = 5
