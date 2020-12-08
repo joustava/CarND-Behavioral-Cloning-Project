@@ -1,7 +1,9 @@
 # Lets keep repo size sane and by not committing raw training data.
 data
 *.zip
-.DS_Store
+*.DS_Store
+.vscode
+
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 

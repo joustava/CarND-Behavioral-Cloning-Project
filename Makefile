@@ -8,4 +8,4 @@ test_model:
 		python ./tools/drive.py ./models/model.h5
 
 train_model:
-		python ./src/nn.py
+		python ./src/model.py
