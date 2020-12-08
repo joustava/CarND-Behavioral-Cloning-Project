@@ -9,7 +9,7 @@ import os
 import datetime
 
 # Hyper params
-epochs = 5
+epochs = 1
 batch_size = 32
 
 
@@ -57,6 +57,6 @@ modified_ts = os.path.getmtime(model_file_name)
 date_time = datetime.datetime.fromtimestamp(
     modified_ts).strftime("%b-%d-%y-%H:%M:%S")
 # backup = split
-os.rename(model_file, model_file+"_"+date_time)
+os.rename(model_file_name, model_file_name+"_"+date_time)
 
 model.save(model_file_name)
