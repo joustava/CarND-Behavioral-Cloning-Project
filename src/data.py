@@ -16,3 +16,5 @@ def load(samples_path='/opt/data/driving_log.csv'):
         reader = csv.reader(csv_file)
         for line in reader:
             lines.append(line)
+
+    return lines
