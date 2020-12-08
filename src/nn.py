@@ -4,6 +4,8 @@ from keras.layers import Dense, Flatten, Lambda
 from sklearn.model_selection import train_test_split
 from data_stream import generator
 from math import ceil
+import time
+
 
 # Hyper params
 epochs = 5
@@ -48,4 +50,5 @@ model.fit_generator(train_generator,
                     epochs=epochs, verbose=verbosity)
 
 # Save model
-model.save('model.h5')
+model_file_name = "model-{}.h5".format(time.time())
+model.save('./models/' + model_file_name)
