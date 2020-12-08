@@ -11,7 +11,7 @@ training_samples, validation_samples = train_test_split(samples, test_size=0.2)
 
 
 # Stream/generator for memory efficiency
-train_generator = generator(train_samples, batch_size=batch_size)
+train_generator = generator(training_samples, batch_size=batch_size)
 validation_generator = generator(validation_samples, batch_size=batch_size)
 
 
