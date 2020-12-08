@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from data_stream import generator
 from math import ceil
 import time
+import os
 
 
 # Hyper params
@@ -49,6 +50,13 @@ model.fit_generator(train_generator,
                     validation_steps=validation_steps,
                     epochs=epochs, verbose=verbosity)
 
-# Save model
-model_file_name = "model-{}.h5".format(time.time())
-model.save('./models/' + model_file_name)
+# Backup previous model and save new model
+model_file_name = './models/model.h5'
+modified_ts = os.path.getmtime(model_file_name)
+
+date_time = datetime.datetime.fromtimestamp(
+    modified_ts).strftime("%b-%d-%y-%H:%M:%S")
+# backup = split
+os.rename(model_file, model_file+"_"+date_time)
+
+model.save(model_file_name)
