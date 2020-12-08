@@ -4,16 +4,6 @@ from keras.layers import Dense, Flatten, Lambda
 from sklearn.model_selection import train_test_split
 from data_stream import generator
 
-# Data
-input_shape = (160, 320, 3)
-samples = load()
-training_samples, validation_samples = train_test_split(samples, test_size=0.2)
-
-
-# Stream/generator for memory efficiency
-train_generator = generator(training_samples, batch_size=batch_size)
-validation_generator = generator(validation_samples, batch_size=batch_size)
-
 
 # Hyper params
 epochs = 5
@@ -25,6 +15,16 @@ validation_steps = ceil(len(validation_samples)/batch_size)
 # Logging
 verbosity = 1
 
+
+# Data
+input_shape = (160, 320, 3)
+samples = load()
+training_samples, validation_samples = train_test_split(samples, test_size=0.2)
+
+
+# Stream/generator for memory efficiency
+train_generator = generator(training_samples, batch_size=batch_size)
+validation_generator = generator(validation_samples, batch_size=batch_size)
 
 # Create model
 model = Sequential()
