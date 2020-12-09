@@ -183,7 +183,31 @@ The produced model can be found in [`./models/model01.h5`](./models/model01.h5) 
 
 Secondly a LeNet based network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 30 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
 
-Before trying out a new neural network model additinal data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss and thus a  
+Before trying out a new neural network model additinal data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss (around 1.1055 mostly) and thus a Dropout layer was added between each dense layer to reduce overfitting. The training result looked like
+
+```bash
+112/112 [==============================] - 50s 443ms/step - loss: 0.0538 - val_loss: 0.0036
+Epoch 2/10
+112/112 [==============================] - 46s 414ms/step - loss: 0.0065 - val_loss: 0.0027
+Epoch 3/10
+112/112 [==============================] - 46s 412ms/step - loss: 0.0049 - val_loss: 0.0028
+Epoch 4/10
+112/112 [==============================] - 46s 412ms/step - loss: 0.0041 - val_loss: 0.0024
+Epoch 5/10
+112/112 [==============================] - 46s 412ms/step - loss: 0.0039 - val_loss: 0.0023
+Epoch 6/10
+112/112 [==============================] - 46s 413ms/step - loss: 0.0035 - val_loss: 0.0022
+Epoch 7/10
+112/112 [==============================] - 46s 412ms/step - loss: 0.0032 - val_loss: 0.0021
+Epoch 8/10
+112/112 [==============================] - 46s 413ms/step - loss: 0.0033 - val_loss: 0.0024
+Epoch 9/10
+112/112 [==============================] - 46s 412ms/step - loss: 0.0029 - val_loss: 0.0022
+Epoch 10/10
+112/112 [==============================] - 46s 412ms/step - loss: 0.0027 - val_loss: 0.0022
+```
+
+
 
 
 
