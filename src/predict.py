@@ -20,9 +20,7 @@ image_paths = sorted(image_paths)
 img1 = ndimage.imread(image_paths[0])
 img2 = ndimage.imread(image_paths[1])
 img3 = ndimage.imread(image_paths[2])
-img_array = image.img_to_array([img1, img2, img3])
-img_batch = np.expand_dims(img_array, axis=0)
-
+img_batch = np.expand_dims([img1, img2, img3], axis=0)
 
 prediction = predict(img_batch)
 print("PREDICTION\n\n", prediction, "\n\n")
