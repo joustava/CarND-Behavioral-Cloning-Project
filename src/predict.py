@@ -1,8 +1,8 @@
 from keras import models
 import numpy as np
 import glob
-# from scipy import ndimage
-from keras.preprocessing import image
+from scipy import ndimage
+# from keras.preprocessing import image
 
 # print(tf.__version__)
 
@@ -17,9 +17,9 @@ image_paths = glob.glob('./assets/*_2020_12_08_10_46_19_361.jpg')
 # Make sure they are alway in the same order, center, left, right
 image_paths = sorted(image_paths)
 
-img1 = image.load_img(image_paths[0])
-img2 = image.load_img(image_paths[1])
-img3 = image.load_img(image_paths[2])
+img1 = ndimage.imread(image_paths[0])
+img2 = ndimage.imread(image_paths[1])
+img3 = ndimage.imread(image_paths[2])
 img_array = image.img_to_array([img1, img2, img3])
 img_batch = np.expand_dims(img_array, axis=0)
 
