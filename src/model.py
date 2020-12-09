@@ -1,6 +1,6 @@
 from data import load_samples, save_model
 from keras.models import Sequential
-from keras.layers import Dense, Flatten, Lambda
+from keras.layers import Dense, Flatten, Lambda, Conv2D, AveragePooling2D, MaxPooling2D
 from sklearn.model_selection import train_test_split
 from data_stream import generator
 from math import ceil
@@ -37,8 +37,33 @@ model.add(Lambda(lambda x: x/127.5 - 1.0,
 
 
 # Layers
+# model.add(Flatten())
+# model.add(Dense(1))
+# model.compile(loss='mse', optimizer='adam')
+
+model.add(Conv2D(filters=32, kernel_size=(5, 5),
+                 activation='tanh'))
+model.add(AveragePooling2D())
+
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='tanh'))
+model.add(AveragePooling2D())
+
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='tanh'))
+model.add(AveragePooling2D())
+
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='tanh'))
+model.add(AveragePooling2D())
+
 model.add(Flatten())
-model.add(Dense(1))
+
+model.add(Dense(units=1024, activation='tanh'))
+
+model.add(Dense(units=512, activation='tanh'))
+
+model.add(Dense(units=256, activation='tanh'))
+
+model.add(Dense(units=1, activation='tanh'))
+
 model.compile(loss='mse', optimizer='adam')
 
 # Training
