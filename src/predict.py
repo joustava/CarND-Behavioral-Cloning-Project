@@ -5,7 +5,7 @@ from scipy import ndimage
 
 
 def predict(X, model_path='./models/model.h5'):
-    model = keras.models.load_model(model_path)
+    model = models.load_model(model_path)
     return model(X, training=False, verbose=1)
 
 
