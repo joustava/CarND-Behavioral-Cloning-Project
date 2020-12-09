@@ -1,8 +1,8 @@
 from keras import models
 import numpy as np
 import glob
-from scipy import ndimage
-import tensorflow as tf
+# from scipy import ndimage
+from tensorflow.keras.preprocessing import image
 
 print(tf.__version__)
 
@@ -13,13 +13,12 @@ def predict(X, model_path='./models/model.h5'):
 
 
 # Load the three example images
-images = glob.glob('./assets/*_2020_12_08_10_46_19_361.jpg')
+image_paths = glob.glob('./assets/*_2020_12_08_10_46_19_361.jpg')
 # Make sure they are alway in the same order, center, left, right
-images = sorted(images)
-images = [ndimage.imread(img) for img in images]
+image_paths = sorted(image_paths)
 
-image = np.array(images[0])
-image = np.expand_dims(image, 0)
-
-prediction = predict(image)
-print(prediction)
+img = image.load_img(image_paths[0])
+img_array = image.img_to_array(img)
+img_batch = np.expand_dims(img_array, axis=0)
+prediction = model.predict(img_batch)
+print("PREDICTION\n\n", prediction, "\n\n")
