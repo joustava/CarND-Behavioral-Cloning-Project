@@ -4,7 +4,7 @@ import cv2
 import os
 
 
-def generator(samples, batch_size=32, image_path='/opt/data/IMG/'):
+def generator(samples, batch_size=32, correction=0.125, image_path='/opt/data/IMG/'):
     num_samples = len(samples)
     while 1:  # Loop forever so the generator never terminates
         sklearn.utils.shuffle(samples)
@@ -13,6 +13,7 @@ def generator(samples, batch_size=32, image_path='/opt/data/IMG/'):
 
             images = []
             angles = []
+
             for batch_sample in batch_samples:
                 center_cam = image_path + batch_sample[0].split('/')[-1]
                 left_cam = image_path + batch_sample[1].split('/')[-1]
@@ -27,8 +28,8 @@ def generator(samples, batch_size=32, image_path='/opt/data/IMG/'):
                 images.append(right_img)
 
                 angles.append(center_angle)
-                angles.append(center_angle + 0.2)
-                angles.append(center_angle - 0.2)
+                angles.append(center_angle + correction)
+                angles.append(center_angle - correction)
 
             # trim image to only see section with road
             X_train = np.array(images)
