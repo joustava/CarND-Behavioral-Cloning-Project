@@ -2,7 +2,7 @@ from keras import models
 import numpy as np
 import glob
 # from scipy import ndimage
-from tensorflow.keras.preprocessing import image
+from keras.preprocessing import image
 
 print(tf.__version__)
 
