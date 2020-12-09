@@ -35,7 +35,9 @@ def save_model(model, model_file_name='./models/model.h5'):
     if os.path.isfile(model_file_name):
         modified_ts = os.path.getmtime(model_file_name)
         name, ext = model_file_name.rsplit('.', 1)
-        os.rename(model_file_name, "{}_{}.{}".format(
-            name, int(modified_ts), ext))
+        backup_file_name = "{}_{}.{}".format(name, int(modified_ts), ext)
+        os.rename(model_file_name, backup_file_name)
+        print("model backed up as: ", backup_file_name)
 
     model.save(model_file_name)
+    print("model saved as: ", model_file_name)
