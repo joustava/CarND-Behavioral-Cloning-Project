@@ -21,5 +21,5 @@ images = [ndimage.imread(img) for img in images]
 image = np.array(images[0])
 image = np.expand_dims(image, 0)
 
-prediction = predict(tf.convert_to_tensor(image))
+prediction = predict(image)
 print(prediction)
