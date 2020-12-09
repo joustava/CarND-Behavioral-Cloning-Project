@@ -15,5 +15,5 @@ images = glob.glob('./assets/*_2020_12_08_10_46_19_361.jpg')
 images = sorted(images)
 images = [ndimage.imread(img) for img in images]
 
-prediction = predict(nd.array(images))
+prediction = predict(np.array(images))
 print(prediction)
