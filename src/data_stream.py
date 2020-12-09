@@ -14,11 +14,21 @@ def generator(samples, batch_size=32, image_path='/opt/data/IMG/'):
             images = []
             angles = []
             for batch_sample in batch_samples:
-                name = image_path + batch_sample[0].split('/')[-1]
-                center_image = cv2.imread(name)
+                center_cam = image_path + batch_sample[0].split('/')[-1]
+                left_cam = image_path + batch_sample[1].split('/')[-1]
+                right_cam = image_path + batch_sample[2].split('/')[-1]
+                center_img = cv2.imread(center_cam)
+                left_img = cv2.imread(left_cam)
+                right_img = cv2.imread(right_cam)
                 center_angle = float(batch_sample[3])
-                images.append(center_image)
+
+                images.append(center_img)
+                images.append(left_img)
+                images.append(right_img)
+
                 angles.append(center_angle)
+                angles.append(center_angle + 0.2)
+                angles.append(center_angle - 0.2)
 
             # trim image to only see section with road
             X_train = np.array(images)
