@@ -179,7 +179,7 @@ model.compile(loss='mse', optimizer='adam')
 
 The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01). The model did not do well in the simulator, after about 20 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place.
 
-#### LeNet Based network
+#### LeNet based network
 
 Secondly a LeNet based network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 30 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
 
@@ -206,6 +206,33 @@ Epoch 9/10
 Epoch 10/10
 112/112 [==============================] - 46s 412ms/step - loss: 0.0027 - val_loss: 0.0022
 ```
+
+These look like good results but again the simulator just drives on center for a while to then start tracking the road along the outside of the left bank. One more step to the data processing was added to crop the images such that the horizon above the road surface and the hood of the car were cropped from each image. The results of the training were similar to the training applied above, however the simulator still ran off track pretty soon.
+
+```bash
+name: Tesla K80, pci bus id: 0000:00:04.0)
+112/112 [==============================] - 35s 310ms/step - loss: 0.0404 - val_loss: 0.0113
+Epoch 2/10
+112/112 [==============================] - 30s 267ms/step - loss: 0.0129 - val_loss: 0.0097
+Epoch 3/10
+112/112 [==============================] - 30s 268ms/step - loss: 0.0113 - val_loss: 0.0087
+Epoch 4/10
+112/112 [==============================] - 30s 268ms/step - loss: 0.0103 - val_loss: 0.0086
+Epoch 5/10
+112/112 [==============================] - 30s 268ms/step - loss: 0.0098 - val_loss: 0.0081
+Epoch 6/10
+112/112 [==============================] - 30s 267ms/step - loss: 0.0091 - val_loss: 0.0078
+Epoch 7/10
+112/112 [==============================] - 30s 268ms/step - loss: 0.0087 - val_loss: 0.0078
+Epoch 8/10
+112/112 [==============================] - 30s 270ms/step - loss: 0.0084 - val_loss: 0.0079
+Epoch 9/10
+112/112 [==============================] - 30s 270ms/step - loss: 0.0082 - val_loss: 0.0074
+Epoch 10/10
+112/112 [==============================] - 30s 270ms/step - loss: 0.0079 - val_loss: 0.0075
+```
+
+ 
 
 
 
@@ -278,4 +305,4 @@ I used this training data for training the model. The validation set helped dete
 * https://github.com/udacity/CarND-Behavioral-Cloning-P3
 * https://github.com/udacity/CarND-Term1-Starter-Kit
 * http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
-* 
+* https://developer.nvidia.com/blog/deep-learning-self-driving-cars/ (web version of above)

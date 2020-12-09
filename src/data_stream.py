@@ -1,6 +1,6 @@
 import sklearn
 import numpy as np
-import cv2
+from scipy import ndimage
 import os
 
 
@@ -23,9 +23,9 @@ def generator(samples, batch_size=32, correction=0.125, image_path='/opt/data/IM
                 center_cam = image_path + batch_sample[0].split('/')[-1]
                 left_cam = image_path + batch_sample[1].split('/')[-1]
                 right_cam = image_path + batch_sample[2].split('/')[-1]
-                center_img = cv2.imread(center_cam)
-                left_img = cv2.imread(left_cam)
-                right_img = cv2.imread(right_cam)
+                center_img = ndimage.imread(center_cam)
+                left_img = ndimage.imread(left_cam)
+                right_img = ndimage.imread(right_cam)
                 center_angle = float(batch_sample[3])
 
                 images.append(center_img)
