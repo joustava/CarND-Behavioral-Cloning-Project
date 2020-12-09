@@ -18,7 +18,8 @@ images = glob.glob('./assets/*_2020_12_08_10_46_19_361.jpg')
 images = sorted(images)
 images = [ndimage.imread(img) for img in images]
 
-# X = tf.data.Dataset.from_tensor_slices(images)
+image = np.array(images[0])
+image = np.expand_dims(image, 0)
 
-prediction = predict(tf.convert_to_tensor(images[0]))
+prediction = predict(tf.convert_to_tensor(image))
 print(prediction)
