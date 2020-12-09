@@ -12,7 +12,7 @@ def predict(X, model_path='./models/model.h5'):
 # Load the three example images
 images = glob.glob('./assets/*_2020_12_08_10_46_19_361.jpg')
 # Make sure they are alway in the same order, center, left, right
-images = sort(images)
+images = sorted(images)
 images = [ndimage.imread(img) for img in images]
 
 prediction = predict(nd.array(images))
