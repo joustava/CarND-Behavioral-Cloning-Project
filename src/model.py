@@ -5,8 +5,7 @@ from sklearn.model_selection import train_test_split
 from data_stream import generator
 from math import ceil
 
-print("Traing model with")
-print("Keras version: ", keras.__version__)
+print("Traing model...")
 
 # Hyper params
 epochs = 10

@@ -5,6 +5,11 @@ import os
 
 
 def generator(samples, batch_size=32, correction=0.125, image_path='/opt/data/IMG/'):
+    """
+    Lazily loads the sample driving data
+
+
+    """
     num_samples = len(samples)
     while 1:  # Loop forever so the generator never terminates
         sklearn.utils.shuffle(samples)
