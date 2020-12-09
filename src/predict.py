@@ -2,6 +2,7 @@ from keras import models
 import numpy as np
 import glob
 from scipy import ndimage
+import tensorflow as tf
 
 
 def predict(X, model_path='./models/model.h5'):
@@ -15,5 +16,7 @@ images = glob.glob('./assets/*_2020_12_08_10_46_19_361.jpg')
 images = sorted(images)
 images = [ndimage.imread(img) for img in images]
 
-prediction = predict(np.array(images))
+X = tf.data.Dataset.from_tensor_slices(images)
+
+prediction = predict(X)
 print(prediction)
