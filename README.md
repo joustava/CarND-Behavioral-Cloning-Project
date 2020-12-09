@@ -183,7 +183,7 @@ The produced model can be found in [`./models/model01.h5`](./models/model01.h5) 
 
 Secondly a LeNet based network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 30 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
 
-Before trying out a new neural network model additinal data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss (around 1.1055 mostly) and thus a Dropout layer was added between each dense layer to reduce overfitting. The training result looked like
+Before trying out a new neural network model additinal data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss (around 1.1055 mostly) and thus a Dropout layer was added between each dense layer to reduce overfitting with a rate of 0.5. The training result looked like
 
 ```bash
 112/112 [==============================] - 50s 443ms/step - loss: 0.0538 - val_loss: 0.0036
