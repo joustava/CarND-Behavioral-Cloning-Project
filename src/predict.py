@@ -9,7 +9,7 @@ print(tf.__version__)
 
 def predict(X, model_path='./models/model.h5'):
     model = models.load_model(model_path)
-    return model(X, training=False, verbose=1)
+    return model(X)
 
 
 # Load the three example images
