@@ -1,6 +1,6 @@
 from data import load_samples, save_model
 from keras.models import Sequential
-from keras.layers import Dense, Flatten, Lambda, Conv2D, AveragePooling2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten, Lambda, Conv2D, AveragePooling2D, MaxPooling2D
 from sklearn.model_selection import train_test_split
 from data_stream import generator
 from math import ceil
@@ -9,7 +9,7 @@ from math import ceil
 # Hyper params
 epochs = 10
 batch_size = 32
-
+dropout_rate = 0.5
 
 # Logging
 verbosity = 1
@@ -57,10 +57,13 @@ model.add(AveragePooling2D())
 model.add(Flatten())
 
 model.add(Dense(units=1024, activation='tanh'))
+model.add(Dropout(dropout_rate))
 
 model.add(Dense(units=512, activation='tanh'))
+model.add(Dropout(dropout_rate))
 
 model.add(Dense(units=256, activation='tanh'))
+model.add(Dropout(dropout_rate))
 
 model.add(Dense(units=1, activation='tanh'))
 

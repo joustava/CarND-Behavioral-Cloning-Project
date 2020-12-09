@@ -158,6 +158,10 @@ For details about how I created the training data, see the next section.
 
 The overall strategy for deriving a model architecture was to incrementally build, train, validate a model and subsequently test the model on the simulator whenever there was significant improvement in accuracy.
 
+
+
+#### Basic network
+
 The first step was to create a basic project setup for loading the sample data, preparing and preprocessing the data and then train a simple network which only consisted of only a few layers
 
 ```python
@@ -173,7 +177,13 @@ model.compile(loss='mse', optimizer='adam')
 # ... omitted
 ```
 
-The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01). 
+The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01). The model did not do well in the simulator, after about 20 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place.
+
+#### LeNet Based network
+
+Secondly a LeNet based network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 30 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
+
+Before trying out a new neural network model additinal data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss and thus a  
 
 
 
