@@ -1,6 +1,6 @@
 from data import load_samples, save_model
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Lambda, Conv2D, AveragePooling2D, MaxPooling2D
+from keras.layers import Dense, Dropout, Flatten, Lambda, Conv2D, AveragePooling2D, MaxPooling2D, Cropping2D
 from sklearn.model_selection import train_test_split
 from data_stream import generator
 from math import ceil
