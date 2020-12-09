@@ -20,5 +20,5 @@ images = [ndimage.imread(img) for img in images]
 
 X = tf.data.Dataset.from_tensor_slices(images)
 
-prediction = predict(X)
+prediction = predict(x[0])
 print(prediction)
