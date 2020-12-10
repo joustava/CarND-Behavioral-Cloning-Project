@@ -73,7 +73,7 @@ model.add(Dropout(dropout_rate))
 
 model.add(Dense(units=1, activation='tanh'))
 
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mse', optimizer='adam', metrics=["accuracy"])
 
 # Training
 training = model.fit_generator(train_generator,
