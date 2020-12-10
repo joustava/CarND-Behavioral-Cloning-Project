@@ -18,12 +18,20 @@ image_paths = glob.glob('./assets/*_2020_12_08_10_46_19_361.jpg')
 # Make sure they are alway in the same order, center, left, right
 image_paths = sorted(image_paths)
 
-img1 = ndimage.imread(image_paths[0])
-img2 = ndimage.imread(image_paths[1])
-img3 = ndimage.imread(image_paths[2])
-img_batch = np.array([img1, img2, img3])
+img_batch = []
+
+for file_name in image_paths:
+    img = ndimage.imread(file_name)
+    img_batch.append()
+
+img_batch = np.array(img_batch)
 
 prediction = predict(img_batch)
-print("CENTER: \t ", prediction[0], "\n")
-print("LEFT: \t", prediction[1], "\n")
-print("RIGHT: \t", prediction[2], "\n")
+
+centers, lefts, rights = np.array_split(prediction, 3)
+
+for i in range(len(centers)):
+    print("\n\n", image_paths[i*3])
+    print("CENTER: ", centers[i], "\n")
+    print("LEFT: \t", lefts[i], "\n")
+    print("RIGHT: \t", rights[i], "\n")
