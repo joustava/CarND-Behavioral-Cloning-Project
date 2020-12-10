@@ -4,7 +4,7 @@ from scipy import ndimage
 import os
 
 
-def generator(samples, batch_size=128, correction=0.3, image_path='/opt/data/IMG/'):
+def generator(samples, batch_size=64, correction=0.3, image_path='/opt/data/IMG/'):
     """
     Lazily loads the sample driving data
 

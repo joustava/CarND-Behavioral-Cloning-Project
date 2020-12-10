@@ -10,7 +10,7 @@ print("Traing model...")
 
 # Hyper params
 epochs = 10
-batch_size = 128
+batch_size = 64
 dropout_rate = 0.5
 
 # Logging
@@ -49,7 +49,7 @@ model.add(Lambda(lambda x: x/127.5 - 1.0,
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5),
                  activation='elu'))
-# model.add(AveragePooling2D())
+model.add(MaxPooling2D())
 
 model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='elu'))
 # model.add(AveragePooling2D())
