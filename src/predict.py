@@ -10,7 +10,7 @@ def predict(X, model_path='./models/model.h5'):
     """
     model = models.load_model(model_path)
     # model.summary()
-    return model(X)
+    return model.predict(X)
 
 
 # Load the three example images
