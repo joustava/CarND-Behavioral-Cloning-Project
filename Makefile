@@ -13,6 +13,9 @@ simulation:
 training:
 		python ./src/model.py
 
+prediction:
+		python ./src/predict.py
+
 # Set some git configurations. Only run on the workspace
 # gitconf:
 # 		git config user.email "joustava@gmail.com"
