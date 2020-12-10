@@ -6,7 +6,7 @@ def plot_training_history(history, save_as_file='./assets/plots/training-plot.pn
     loss = history.history["loss"]
     val_loss = history.history["val_loss"]
 
-    epochs = np.arange(0, len(loss))
+    epochs = np.arange(1, len(loss) + 1, 1)
 
     plt.figure()
     plt.plot(epochs, loss, label="training")

@@ -9,7 +9,7 @@ from plotter import plot_training_history
 print("Traing model...")
 
 # Hyper params
-epochs = 20
+epochs = 5
 batch_size = 32
 dropout_rate = 0.5
 
@@ -63,7 +63,7 @@ model.add(Dropout(dropout_rate))
 model.add(Dense(units=1, activation='softsign'))
 
 #model.compile(optimizer='sgd', loss=tf.keras.losses.CosineSimilarity(axis=1))
-model.compile(loss='rmse', optimizer='adam')
+model.compile(loss='mse', optimizer='adam')
 
 # Training
 training = model.fit_generator(train_generator,

@@ -293,6 +293,8 @@ Changes:
 
 - generato batch 128
 - angle correction 0.3
+- loss went down eac hepoch, raised nr of epochs.
+- removed most pooling layers, add one dropout with low rate between convolution
 - 
 
 [TBD]
