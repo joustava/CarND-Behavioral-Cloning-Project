@@ -270,7 +270,9 @@ To capture good driving behavior, I first recorded approximately three laps on t
 
 
 
-
+[[0.32672474]
+ [0.20746137]
+ [0.35259765]] 
 
 
 

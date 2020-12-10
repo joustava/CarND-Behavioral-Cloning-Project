@@ -24,4 +24,6 @@ img3 = ndimage.imread(image_paths[2])
 img_batch = np.array([img1, img2, img3])
 
 prediction = predict(img_batch)
-print("PREDICTION\n\n", prediction, "\n\n")
+print("CENTER: \t ", prediction[0], "\n")
+print("LEFT: \t", prediction[1], "\n")
+print("RIGHT: \t", prediction[2], "\n")
