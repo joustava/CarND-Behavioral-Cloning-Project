@@ -22,7 +22,7 @@ img_batch = []
 
 for file_name in image_paths:
     img = ndimage.imread(file_name)
-    img_batch.append()
+    img_batch.append(img)
 
 img_batch = np.array(img_batch)
 
