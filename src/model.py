@@ -9,7 +9,7 @@ from plotter import plot_training_history
 print("Traing model...")
 
 # Hyper params
-epochs = 15
+epochs = 20
 batch_size = 32
 dropout_rate = 0.5
 
