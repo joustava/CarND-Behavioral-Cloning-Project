@@ -207,7 +207,7 @@ Epoch 10/10
 112/112 [==============================] - 46s 412ms/step - loss: 0.0027 - val_loss: 0.0022
 ```
 
-These look like good results but again the simulator just drives on center for a while to then start tracking the road along the outside of the left bank. One more step to the data processing was added to crop the images such that the horizon above the road surface and the hood of the car were cropped from each image. The results of the training were similar to the training applied above, however the simulator still ran off track pretty soon.
+These look like good training results but again the simulator just drives on center for a while to then start tracking the road along the outside of the left bank. One more step to the data processing was added to crop the images such that the horizon above the road surface and the hood of the car were cropped from each image. The results of the training were similar to the training applied above, however the simulator still ran off track pretty soon.
 
 ```bash
 name: Tesla K80, pci bus id: 0000:00:04.0)
@@ -232,7 +232,13 @@ Epoch 10/10
 112/112 [==============================] - 30s 270ms/step - loss: 0.0079 - val_loss: 0.0075
 ```
 
- 
+ Outputs for center, left and right images on this network are
+
+```bash
+CENTER:    [0.32672474] 
+LEFT:      [0.20746137] 
+RIGHT:     [0.35259765]
+```
 
 
 
@@ -268,13 +274,7 @@ To capture good driving behavior, I first recorded approximately three laps on t
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![Left Camera Image](assets/left_2020_12_08_10_46_19_361.jpg) | ![Center Camera Image](assets/center_2020_12_08_10_46_19_361.jpg) | ![Right Camera Image](assets/right_2020_12_08_10_46_19_361.jpg) |
 
-
-
-[[0.32672474]
- [0.20746137]
- [0.35259765]] 
-
-
+0.20746137 | 0.32672474 | 0.3525976
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
 

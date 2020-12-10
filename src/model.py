@@ -9,7 +9,7 @@ print("Traing model...")
 
 # Hyper params
 epochs = 10
-batch_size = 32
+batch_size = 128
 dropout_rate = 0.5
 
 # Logging
@@ -20,7 +20,8 @@ verbosity = 1
 input_shape = (160, 320, 3)
 cropped_shape = (90, 320, 3)
 samples = load_samples()
-training_samples, validation_samples = train_test_split(samples, test_size=0.2)
+training_samples, validation_samples = train_test_split(
+    samples, test_size=0.3, shuffle=True)
 steps_per_epoch = ceil(len(training_samples) / batch_size)
 validation_steps = ceil(len(validation_samples) / batch_size)
 
