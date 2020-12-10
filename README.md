@@ -254,7 +254,7 @@ LEFT:      [0.22326781]
 RIGHT:     [0.20886575] 
 ```
 
-Which look ok at a first glance. Next I created a plot of the training data to better visualize the training performance and added additional accuracy logging to the training command which make it really clear that this network setup is clearly underperforming.
+Which look ok at a first glance. Next I created a plot of the training data to better visualize the training performance. [TBD accuracy not making sense in case of MSE]
 
 ```bash
 Epoch 1/10
@@ -279,7 +279,7 @@ Epoch 10/10
 25/25 [==============================] - 32s 1s/step - loss: 0.0183 - acc: 0.0138 - val_loss: 0.0176 - val_acc: 0.0139
 ```
 
-
+[Accuracy not a good indication/metric in a non-classification problem.]
 
 | Figure 1. Loss and Accuracy plotted over epochs              |
 | ------------------------------------------------------------ |

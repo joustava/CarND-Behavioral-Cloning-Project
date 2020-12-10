@@ -9,8 +9,8 @@ from plotter import plot_training_history
 print("Traing model...")
 
 # Hyper params
-epochs = 10
-batch_size = 64
+epochs = 15
+batch_size = 32
 dropout_rate = 0.5
 
 # Logging
@@ -43,37 +43,26 @@ model.add(Lambda(lambda x: x/127.5 - 1.0,
 
 
 # Layers
-# model.add(Flatten())
-# model.add(Dense(1))
-# model.compile(loss='mse', optimizer='adam')
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5),
-                 activation='elu'))
-model.add(MaxPooling2D())
+                 activation='softsign'))
+model.add(AveragePooling2D())
 
-model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='elu'))
-# model.add(AveragePooling2D())
-
-model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='elu'))
-# model.add(AveragePooling2D())
-
-model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='elu'))
-# model.add(AveragePooling2D())
+model.add(Conv2D(filters=32, kernel_size=(5, 5), activation='softsign'))
+model.add(Dropout(0.2))
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='softsign'))
 
 model.add(Flatten())
 
-model.add(Dense(units=1024, activation='elu'))
+model.add(Dense(units=512, activation='softsign'))
 model.add(Dropout(dropout_rate))
 
-model.add(Dense(units=512, activation='elu'))
+model.add(Dense(units=256, activation='softsign'))
 model.add(Dropout(dropout_rate))
 
-model.add(Dense(units=256, activation='elu'))
-model.add(Dropout(dropout_rate))
+model.add(Dense(units=1, activation='softsign'))
 
-model.add(Dense(units=1, activation='tanh'))
-
-model.compile(loss='mse', optimizer='adam', metrics=["accuracy"])
+model.compile(loss='rmse', optimizer='adam')
 
 # Training
 training = model.fit_generator(train_generator,
