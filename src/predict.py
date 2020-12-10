@@ -2,13 +2,14 @@ from keras import models
 import numpy as np
 import glob
 from scipy import ndimage
-# from keras.preprocessing import image
-
-# print(tf.__version__)
 
 
 def predict(X, model_path='./models/model.h5'):
+    """
+    Predicts the outputs for the inputs given with the restored model.
+    """
     model = models.load_model(model_path)
+    # model.summary()
     return model(X)
 
 
@@ -20,7 +21,7 @@ image_paths = sorted(image_paths)
 img1 = ndimage.imread(image_paths[0])
 img2 = ndimage.imread(image_paths[1])
 img3 = ndimage.imread(image_paths[2])
-img_batch = np.expand_dims([img1, img2, img3], axis=0)
+img_batch = np.array([img1, img2, img3])
 
 prediction = predict(img_batch)
 print("PREDICTION\n\n", prediction, "\n\n")

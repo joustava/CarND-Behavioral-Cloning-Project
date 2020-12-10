@@ -29,8 +29,11 @@ def load_samples(samples_path='/opt/data/driving_log.csv'):
 
 def save_model(model, model_file_name='./models/model.h5'):
     """
-    Makes a backup of a model.h5 file (if existing) by appending a timestamp to the filename part to then save 
-    the new model under the original name
+    Makes a backup of the network in a model.h5 file (if existing) by appending a timestamp to the filename part to then save 
+    the new model under the original name.
+
+    The created files will include the models weights, architecture, compilation details (loss and metrics)
+    and optimizer state.
     """
     if os.path.isfile(model_file_name):
         modified_ts = os.path.getmtime(model_file_name)
