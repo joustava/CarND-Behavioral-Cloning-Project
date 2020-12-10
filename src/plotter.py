@@ -18,4 +18,5 @@ def plot_training_history(history, save_as_file='./assets/plots/training-plot.pn
     plt.title("Training Loss and Accuracy Per Epoch")
     plt.xlabel("Epochs")
     plt.ylabel("Loss/Accuracy")
+    plt.legend()
     plt.savefig(save_as_file)
