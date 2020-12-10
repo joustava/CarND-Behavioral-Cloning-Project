@@ -62,6 +62,7 @@ model.add(Dropout(dropout_rate))
 
 model.add(Dense(units=1, activation='softsign'))
 
+#model.compile(optimizer='sgd', loss=tf.keras.losses.CosineSimilarity(axis=1))
 model.compile(loss='rmse', optimizer='adam')
 
 # Training
