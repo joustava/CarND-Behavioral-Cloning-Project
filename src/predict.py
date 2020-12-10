@@ -14,7 +14,7 @@ def predict(X, model_path='./models/model.h5'):
 
 
 # Load the three example images
-image_paths = glob.glob('./assets/*_*.jpg')
+image_paths = glob.glob('./assets/cameras/*.jpg')
 # Make sure they are alway in the same order, center, left, right
 image_paths = sorted(image_paths)
 
@@ -31,7 +31,8 @@ prediction = predict(img_batch)
 centers, lefts, rights = np.array_split(prediction, 3)
 
 for i in range(len(centers)):
-    print("\n\n", image_paths[i*3])
-    print("CENTER: ", centers[i], "\n")
-    print("LEFT: \t", lefts[i], "\n")
-    print("RIGHT: \t", rights[i], "\n")
+    image_path = image_paths[i]
+    print("\n", image_path.rsplit('_', 1)[1])
+    print("CENTER:\t", centers[i])
+    print("LEFT:\t", lefts[i])
+    print("RIGHT:\t", rights[i])

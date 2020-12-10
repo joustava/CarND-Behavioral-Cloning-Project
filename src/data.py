@@ -4,6 +4,18 @@ import os
 import datetime
 
 
+def save_history(history, history_path='./assets/pickles/history.pickle'):
+    with open(history_path, 'wb') as file:
+        pickle.dump(history.history, file)
+
+
+def load_history(history, history_path='./assets/pickles/history.pickle'):
+    file = open(history_path, 'rb')
+    history = pickle.load(file)
+    file.close()
+    return history
+
+
 def load_samples(samples_path='/opt/data/driving_log.csv'):
     """
     Read a CSV driving_log file containing sensor data.
@@ -27,7 +39,7 @@ def load_samples(samples_path='/opt/data/driving_log.csv'):
     return lines
 
 
-def save_model(model, model_file_name='./models/model.h5'):
+def save_model(model, model_file_name='./models/model.h5', history_file_name='./assets/pickles/history.pickle'):
     """
     Makes a backup of the network in a model.h5 file (if existing) by appending a timestamp to the filename part to then save 
     the new model under the original name.
@@ -43,4 +55,5 @@ def save_model(model, model_file_name='./models/model.h5'):
         print("model backed up as: ", backup_file_name)
 
     model.save(model_file_name)
+    # save_history(history, history_file_name)
     print("model saved as: ", model_file_name)

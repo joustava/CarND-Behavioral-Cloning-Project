@@ -232,15 +232,29 @@ Epoch 10/10
 112/112 [==============================] - 30s 270ms/step - loss: 0.0079 - val_loss: 0.0075
 ```
 
- Outputs for center, left and right images on this network are
+ These results made me start to inspect the data more closely. Predicted outputs for center, left and right images on this network were
 
 ```bash
-CENTER:    [0.32672474] 
+TBD: Check from lenet branch
+./assets/center_2020_12_08_10_46_19_361.jpg
+# Car is near center of lane
+CENTER:  [0.32672474] 
 LEFT:      [0.20746137] 
-RIGHT:     [0.35259765]
+RIGHT:     [0.35259765] 
+
+ ./assets/left_2020_12_08_10_46_19_361.jpg
+# Car is near 
+CENTER:  [0.09711259] 
+LEFT:      [-0.06863123] 
+RIGHT:     [0.09685086] 
+
+ ./assets/right_2020_12_08_10_46_19_361.jpg
+CENTER:  [0.2572524] 
+LEFT:      [0.22326781] 
+RIGHT:     [0.20886575] 
 ```
 
-
+Which look ok at a first glance. Next I created a plot of the training data to better visualize the training performance.
 
 
 
@@ -274,7 +288,7 @@ To capture good driving behavior, I first recorded approximately three laps on t
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![Left Camera Image](assets/left_2020_12_08_10_46_19_361.jpg) | ![Center Camera Image](assets/center_2020_12_08_10_46_19_361.jpg) | ![Right Camera Image](assets/right_2020_12_08_10_46_19_361.jpg) |
 
-0.20746137 | 0.32672474 | 0.3525976
+
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
 
