@@ -1,3 +1,5 @@
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 def plot_training_history(history, save_as_file='./assets/plots/training-plot.png'):
