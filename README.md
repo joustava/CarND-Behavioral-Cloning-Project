@@ -177,11 +177,11 @@ model.compile(loss='mse', optimizer='adam')
 # ... omitted
 ```
 
-The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01). The model did not do well in the simulator, after about 20 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place.
+The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01). The model did not do well in the simulator, after about 10 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place.
 
 #### LeNet based network
 
-Secondly a LeNet based network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 30 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
+Secondly a LeNet like network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 20 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
 
 Before trying out a new neural network model additinal data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss (around 1.1055 mostly) and thus a Dropout layer was added between each dense layer to reduce overfitting with a rate of 0.5. The training result looked like
 
@@ -232,7 +232,7 @@ Epoch 10/10
 112/112 [==============================] - 30s 270ms/step - loss: 0.0079 - val_loss: 0.0075
 ```
 
- These results made me start to inspect the data more closely. Predicted outputs for center, left and right images on this network were
+ These results made me start to inspect the data more closely. Made predictions for the outputs for center, left and right images on this network were
 
 ```bash
 TBD: Check from lenet branch
@@ -254,7 +254,40 @@ LEFT:      [0.22326781]
 RIGHT:     [0.20886575] 
 ```
 
-Which look ok at a first glance. Next I created a plot of the training data to better visualize the training performance.
+Which look ok at a first glance. Next I created a plot of the training data to better visualize the training performance and added additional accuracy logging to the training command which make it really clear that this network setup is clearly underperforming.
+
+```bash
+Epoch 1/10
+25/25 [==============================] - 42s 2s/step - loss: 0.1602 - acc: 0.0112 - val_loss: 0.0295 - val_acc: 0.0139
+Epoch 2/10
+25/25 [==============================] - 31s 1s/step - loss: 0.0308 - acc: 0.0138 - val_loss: 0.0239 - val_acc: 0.0139
+Epoch 3/10
+25/25 [==============================] - 34s 1s/step - loss: 0.0256 - acc: 0.0138 - val_loss: 0.0224 - val_acc: 0.0139
+Epoch 4/10
+25/25 [==============================] - 33s 1s/step - loss: 0.0239 - acc: 0.0138 - val_loss: 0.0201 - val_acc: 0.0139
+Epoch 5/10
+25/25 [==============================] - 33s 1s/step - loss: 0.0216 - acc: 0.0138 - val_loss: 0.0190 - val_acc: 0.0139
+Epoch 6/10
+25/25 [==============================] - 32s 1s/step - loss: 0.0204 - acc: 0.0138 - val_loss: 0.0186 - val_acc: 0.0139
+Epoch 7/10
+25/25 [==============================] - 33s 1s/step - loss: 0.0203 - acc: 0.0138 - val_loss: 0.0181 - val_acc: 0.0139
+Epoch 8/10
+25/25 [==============================] - 32s 1s/step - loss: 0.0195 - acc: 0.0138 - val_loss: 0.0189 - val_acc: 0.0139
+Epoch 9/10
+25/25 [==============================] - 32s 1s/step - loss: 0.0189 - acc: 0.0138 - val_loss: 0.0175 - val_acc: 0.0139
+Epoch 10/10
+25/25 [==============================] - 32s 1s/step - loss: 0.0183 - acc: 0.0138 - val_loss: 0.0176 - val_acc: 0.0139
+```
+
+
+
+| Figure 1. Loss and Accuracy plotted over epochs              |
+| ------------------------------------------------------------ |
+| ![Training Loss and Accuray Plot](assets/plots/training-plot-lenet.png) |
+
+
+
+#### next network
 
 
 
