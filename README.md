@@ -49,7 +49,7 @@ The following checklist needs to be implemented in order for the project to succ
   - collecting data from the second track can also help generalize the model
   - we want to avoid overfitting or underfitting when training the model
   - knowing when to stop collecting more data
-- steering is from -1 to 1 (sigmoid ?)
+- steering is from -1 to 1 (tanh ?) in simulator angle of -25 to 25 degree
 - three camera viewpoints per timestamp + sensor data. steering only concidered in this project
 - can use scp to copy training data from local simulator to remote GPU instance
 - If model predictions are poor on both the training and validation set (for example, mean squared error is high on both), then this is evidence of underfitting. Possible solutions could be to
