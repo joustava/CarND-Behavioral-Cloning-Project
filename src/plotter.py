@@ -3,8 +3,8 @@
 def plot_training_history(history, save_as_file='./assets/plots/training-plot.png'):
     loss = history.history["loss"]
     val_loss = history.history["val_loss"]
-    accuracy = history.history["accuracy"]
-    val_accuracy = history.history["val_accuracy"]
+    accuracy = history.history["acc"]
+    val_accuracy = history.history["val_acc"]
 
     epochs = np.arange(0, len(loss))
 
