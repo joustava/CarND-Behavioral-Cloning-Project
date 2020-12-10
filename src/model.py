@@ -48,27 +48,27 @@ model.add(Lambda(lambda x: x/127.5 - 1.0,
 # model.compile(loss='mse', optimizer='adam')
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5),
-                 activation='tanh'))
-model.add(AveragePooling2D())
+                 activation='elu'))
+# model.add(AveragePooling2D())
 
-model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='tanh'))
-model.add(AveragePooling2D())
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='elu'))
+# model.add(AveragePooling2D())
 
-model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='tanh'))
-model.add(AveragePooling2D())
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='elu'))
+# model.add(AveragePooling2D())
 
-model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='tanh'))
-model.add(AveragePooling2D())
+model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='elu'))
+# model.add(AveragePooling2D())
 
 model.add(Flatten())
 
-model.add(Dense(units=1024, activation='tanh'))
+model.add(Dense(units=1024, activation='elu'))
 model.add(Dropout(dropout_rate))
 
-model.add(Dense(units=512, activation='tanh'))
+model.add(Dense(units=512, activation='elu'))
 model.add(Dropout(dropout_rate))
 
-model.add(Dense(units=256, activation='tanh'))
+model.add(Dense(units=256, activation='elu'))
 model.add(Dropout(dropout_rate))
 
 model.add(Dense(units=1, activation='tanh'))

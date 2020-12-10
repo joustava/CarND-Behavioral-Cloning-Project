@@ -177,7 +177,7 @@ model.compile(loss='mse', optimizer='adam')
 # ... omitted
 ```
 
-The produced model can be found in [`./models/model01.h5`](./models/model01.h5) and the first iteration of the source code in repository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01). The model did not do well in the simulator, after about 10 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place.
+The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01) as well ass the accompanying source code. The model did not do well in the simulator, after about 10 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place.
 
 #### LeNet based network
 
@@ -285,11 +285,15 @@ Epoch 10/10
 | ------------------------------------------------------------ |
 | ![Training Loss and Accuray Plot](assets/plots/training-plot-lenet.png) |
 
-
+The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model02](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model02) as well ass the accompanying source code at this point in time.
 
 #### next network
 
+Changes:
 
+- generato batch 128
+- angle correction 0.3
+- 
 
 [TBD]
 
