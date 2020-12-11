@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from data_stream import generator
 from math import ceil
 from plotter import plot_training_history
+from augmentation import CustomDataGenerator
 
 print("Traing model...")
 
@@ -27,9 +28,12 @@ steps_per_epoch = ceil(len(training_samples) / batch_size)
 validation_steps = ceil(len(validation_samples) / batch_size)
 
 # Stream/generator for memory efficiency
-train_generator = generator(training_samples, batch_size=batch_size)
-validation_generator = generator(validation_samples, batch_size=batch_size)
+# train_generator = generator(training_samples, batch_size=batch_size)
+# validation_generator = generator(validation_samples, batch_size=batch_size)
 
+train_generator = CustomDataGenerator(training_samples, batch_size=batch_size)
+validation_generator = CustomDataGenerator(
+    validation_samples, batch_size=batch_size)
 # Create model
 model = Sequential()
 

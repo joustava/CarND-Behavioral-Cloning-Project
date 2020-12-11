@@ -179,7 +179,7 @@ model.compile(loss='mse', optimizer='adam')
 
 The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01) as well ass the accompanying source code. The model did not do well in the simulator, after about 10 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place.
 
-#### LeNet based network
+#### LeNet based network iteration
 
 Secondly a LeNet like network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 20 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
 
@@ -287,15 +287,33 @@ Epoch 10/10
 
 The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model02](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model02) as well ass the accompanying source code at this point in time.
 
-#### next network
+#### Model 3 network iteration
 
 Changes:
 
-- generato batch 128
+- generato batch 32 (bigger gives OOM)
 - angle correction 0.3
-- loss went down eac hepoch, raised nr of epochs.
+- loss went down eac hepoch, raised nr of epochs. (but too low loss resulted in overfitting as the car started to follow lines too closely)
 - removed most pooling layers, add one dropout with low rate between convolution
-- 
+- found that keeping loss relatively high kept the smiulator from aiming for the sides of the road, of course quality of sampling has to do with this as well. however the car now was able to drive till just after the bridge in the first track. The epoch are numbered off by one in this plot, it had 5.
+
+![](./assets/plots/training-plot-model03.png)
+
+
+
+#### Model 4 network iteration
+
+For this model, I started focussing on the proper handling of sample data. There was already a generator in place to do more efficient handling but according to the keras docs: *Sequence [keras.utils.Sequence()] are a safer way to do multiprocessing. This structure guarantees that the network will only train once on each sample per epoch which is not the case with generators.* Apart from that, the batch handling seemed off as we would set a batch size while training but the generator would create k times bigger batches because we add left and right images and their corresponding steering angles as well. Also, to be able to let the model generalize better, we also needed to think about augmenting the data. Last, the model.h5 files saved for model03 became bigger and bigger in file size (~1Gb) and I'd like to take a look at possibilities to decrease this.
+
+
+
+First we explore the Sequence: 
+
+
+
+
+
+
 
 [TBD]
 
