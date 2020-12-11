@@ -53,10 +53,12 @@ model.add(Lambda(lambda x: x/127.5 - 1.0,
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5),
                  activation='softsign'))
-model.add(AveragePooling2D())
+# model.add(AveragePooling2D())
+model.add(Dropout(0.1))
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5), activation='softsign'))
-model.add(AveragePooling2D())
+# model.add(AveragePooling2D())
+model.add(Dropout(0.1))
 
 model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='softsign'))
 
