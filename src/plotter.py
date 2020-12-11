@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 
 
 def plot_training_history(history, save_as_file='./assets/plots/training-plot.png'):
+    """
+    Plot loss over epochs from a keras model fitting history object and save as image.
+    """
     loss = history.history["loss"]
     val_loss = history.history["val_loss"]
 

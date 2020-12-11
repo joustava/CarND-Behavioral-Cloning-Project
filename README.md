@@ -1,4 +1,4 @@
-# Behavioural Cloning
+# Behavioural Cloning Project
 
 > **Use Deep Learning to Clone Driving Behavior** by building a convolution neural network in Keras that predicts steering angles from images, and is trained, validated and tested with the appropriate data sets. In the end the trained model should be able to drive the simulation around track one (optionally track two). The work is reported in this README.
 
@@ -51,7 +51,7 @@ The following checklist needs to be implemented in order for the project to succ
   - knowing when to stop collecting more data
 - steering is from -1 to 1 (tanh ?) in simulator angle of -25 to 25 degree
 - three camera viewpoints per timestamp + sensor data. steering only concidered in this project
-- can use scp to copy training data from local simulator to remote GPU instance
+- ~~can use scp to copy training data from local simulator to remote GPU instance~~
 - If model predictions are poor on both the training and validation set (for example, mean squared error is high on both), then this is evidence of underfitting. Possible solutions could be to
   - increase the number of epochs
   - add more convolutions to the network.
@@ -68,11 +68,11 @@ The following checklist needs to be implemented in order for the project to succ
 
 ### Workflow
 
-Two clones of the project exist, one in the Udacity workspace and the other on a local machine which both point to the main [repository](https://github.com/joustava/CarND-Behavioral-Cloning-Project). Collection of training data was done on a local MacBook Pro (2013) and training of the model is done on the GPU enabled workspace. Other tasks which do not require a GPU, such as major coding tasks, documenting, graphing and the writeup were done locally as to not waste GPU time.
+Two clones of the project should exist, one in the Udacity workspace and the other on a local machine which both point to the main [repository](https://github.com/joustava/CarND-Behavioral-Cloning-Project). Collection of training data was done on a local MacBook Pro (2013) and training of the model is done on the GPU enabled workspace. Other tasks which do not require a GPU, such as major coding tasks, documenting, graphing and the writeup were done locally as to not waste GPU time.
 
-Collection of data is done via a simulator, one needs to drive the car around the track using several driving tactics while recording. This data then has been uploaded as a compressed zip file to the GPU enabled workspace. On the workspace, this file has been unpacked in the `/opt` directory.
+Collection of data is done via a simulator, one needs to drive the car around the track using several driving tactics while recording. This data then has been uploaded as a compressed zip file to the GPU enabled workspace. On the workspace, this file can been unpacked in the `/opt` directory. When the compressed zip file is not to big in size (> 300mb) it is advised to upload it to the workspace directory to then unpack it with `unzip <samples_file>.zip -d /opt/` this removes the need of having to upload the samples each time when the workspace is restarted.
 
-Each newly trained model is saved as `./models/model.h5`and as to not overwrite older models the previous files are backed up with their modification timestamp in the file name e.g `model_1607426211.5h`
+Each newly trained model is saved as `./models/model.h5`and as to not overwrite older models the previous files are backed up with their modification timestamp in the file name e.g `model_1607426211.5h`. With big models that have many parameters, this can lead to getting out of disk space thus it is advised to not store a great number of backups and keep the important models in some other storage such as e.g Dropbox or Google Drive.
 
 Versions used:
 
@@ -85,10 +85,6 @@ $ python -c "import tensorflow; print(tensorflow.__version__)"
 1.3.0
 ```
 
-
-
-Keras: 2.0.9
-
 ### Files Submitted & Code Quality
 
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
@@ -98,6 +94,7 @@ My project includes the following required files:
 * `./tools/drive.py` for driving the car in autonomous mode
 * `./models/model.h5` containing a trained convolution neural network 
 * `README.md` summarizing the results (this is what you are reading right now)
+* `./assets/videos/video.mp4` showcasing the simulation conquer track one.
 
 The major structure of my project files summarized:
 
@@ -106,15 +103,19 @@ The major structure of my project files summarized:
 ├── .gitignore 						# configured as to not upload huge amount of unnecessary data
 ├── LICENSE
 ├── Makefile							# helper targets for the make utility
-├── data									# this is not committed but compressed and uploaded to /opt
+├── assets								# contains trained models
+│   ├── plots							# plots of training results
+│   └── cameras						# camera img examples for writeup
+├── data									# this is not committed to this repo but compressed and uploaded to /opt
 │   ├── IMG								# camera images
 │   └── driving_log.csv		# sensor log
-├── models								# contains trained models
+├── models								# contains trained models temporarily before moving to e.g Dropbox
 │   └── .gitkeep
 ├── src										# Code to train and create models
 │   ├── augmentation.py
 │   ├── data.py
-│   ├── data_stream.py
+│   ├── plotter.py
+│   ├── predict.py
 │   └── model.py
 └── tools									# the original provided tools for simulation and recording
     ├── drive.py
@@ -134,36 +135,52 @@ $ python drive.py model.h5
 or
 
 ```bash
-$ make test_model
+$ make simulation
 ```
 
 The car in the simulator will then start driving and attempt to navigate around the track without leaving the road.
 
+If no `model.h5` file is available it can be generated anew by running
+
+```bash
+$ python ./src/model.py
+```
+
+or
+
+```bash
+$ make training
+```
+
+This may take several minutes on a GPU enabled workspace.
+
+If training fails, due to not being able to find the samples in `/opt` folder then these need to be uploaded to the workspace and unzipped first.
+
 #### 3. Submission code is usable and readable
 
-The `./scr/model.py` file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works. Major functionality such as loading data, saving the models and generating test data has been split up into independent files and imported into `./src/model.py` accordingly. These files are also extensively commented or documented.
+The `./scr/model.py` file contains the code for training and saving the convolution neural network. The file shows the pipeline used for training and validating the model and it contains comments to explain how the code works. Secondary functionality such as loading data, saving the models and generating test data has been split up into independent files and imported into `./src/model.py` accordingly. These files are also extensively commented and documented.
 
 ### Model Architecture and Training Strategy
 
 #### 1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+My final model consists of several convolution layers with 5x5 and 3x3 filter sizes all having the same depth of 32. [link] Which are connected to several Fully Connected layers through a Flatten layer.
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+The model includes *softsign* activation functions to introduce nonlinearity [link] and the data is normalized in the model using a Keras lambda layer [link]
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+The model contains dropout layers between each Fully Connected layer in order to reduce overfitting [(model.py lines 21). ]
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained with 70% of the sample data and validated with the remaining 30% through randomized batch sets to ensure that the model was not overfitting[link]. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model uses the [Adam](https://keras.io/api/optimizers/adam/) optimizer, so the learning rate is not tuned manually and this optimizer will start learning with a rate of 0.001. [link to line in repo]. Hyperparameters and additional information about the resulting network  is covered in the Final Model Architecture section.
 
 #### 4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+The training data consists solely of samples taken during three uninterrupted laps on track one. Each sample is expanded by using all three images with steering angle corrected for each left and right camera based on the original angle. Improving generalisation of the model was done by once more extending sample size by generation of horizontally flipped images of the left and right camera and the steering angle.
 
 For details about how I created the training data, see the next section. 
 
@@ -171,13 +188,11 @@ For details about how I created the training data, see the next section.
 
 #### 1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to incrementally build, train, validate a model and subsequently test the model on the simulator whenever there was significant improvement in accuracy.
-
-
+The overall strategy for deriving a model architecture was to incrementally build, train and validate a model and subsequently test the model with the simulator whenever there was significant improvement in driving behaviour. Looking at the accuracy of both training and validation has no real value in this case as we are not solving  a classification problem. 
 
 #### Basic network
 
-The first step was to create a basic project setup for loading the sample data, preparing and preprocessing the data and then train a simple network which only consisted of only a few layers
+The first step was to create a basic project setup for loading the sample data, preparing and preprocessing the data and then train a simple network which only consisted of only a few layers.
 
 ```python
 # ... omitted
@@ -192,13 +207,13 @@ model.compile(loss='mse', optimizer='adam')
 # ... omitted
 ```
 
-The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01) as well ass the accompanying source code. The model did not do well in the simulator, after about 10 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place.
+The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01) as well ass the accompanying source code. The model did not do well in the simulator, after about 10 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place however, while building this simple network we created a project structure and tooling to support further research.
 
 #### LeNet based network iteration
 
-Secondly a LeNet like network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 20 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
+Secondly, a LeNet like network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 20 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
 
-Before trying out a new neural network model additinal data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss (around 1.1055 mostly) and thus a Dropout layer was added between each dense layer to reduce overfitting with a rate of 0.5. The training result looked like
+Before trying out a new neural network model, additional data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss (around 1.1055 mostly) and thus a dropout layer was added between each dense layer, each with a dropout rate of 0.5, to reduce overfitting. The training result output is plotted below
 
 ```bash
 112/112 [==============================] - 50s 443ms/step - loss: 0.0538 - val_loss: 0.0036
@@ -222,7 +237,7 @@ Epoch 10/10
 112/112 [==============================] - 46s 412ms/step - loss: 0.0027 - val_loss: 0.0022
 ```
 
-These look like good training results but again the simulator just drives on center for a while to then start tracking the road along the outside of the left bank. One more step to the data processing was added to crop the images such that the horizon above the road surface and the hood of the car were cropped from each image. The results of the training were similar to the training applied above, however the simulator still ran off track pretty soon.
+These look like good training results but again the simulator just drove on center for a while to then start tracking the road along the outside of the left bank. One more step to the data processing was added to crop the images such that the horizon above the road surface and the hood of the car were cropped from each image. The results of the training were similar to the training applied above, however the simulator still ran off track pretty soon.
 
 ```bash
 name: Tesla K80, pci bus id: 0000:00:04.0)
@@ -247,7 +262,7 @@ Epoch 10/10
 112/112 [==============================] - 30s 270ms/step - loss: 0.0079 - val_loss: 0.0075
 ```
 
- These results made me start to inspect the data more closely. Made predictions for the outputs for center, left and right images on this network were
+These previous results made me start to inspect the data more closely. Made predictions for the outputs for center, left and right images on this network were as follows
 
 ```bash
 TBD: Check from lenet branch
@@ -269,7 +284,7 @@ LEFT:      [0.22326781]
 RIGHT:     [0.20886575] 
 ```
 
-Which look ok at a first glance. Next I created a plot of the training data to better visualize the training performance. [TBD accuracy not making sense in case of MSE]
+Which look ok at a first glance. Next I created a plot of the training data to better visualize the training performance. The output below also depicts accuracies during the training but these values can be discarded as they have no real value in checking the performance of this particular model.
 
 ```bash
 Epoch 1/10
@@ -294,13 +309,15 @@ Epoch 10/10
 25/25 [==============================] - 32s 1s/step - loss: 0.0183 - acc: 0.0138 - val_loss: 0.0176 - val_acc: 0.0139
 ```
 
-[Accuracy not a good indication/metric in a non-classification problem.]
+The plot of these values can be found from figure 1 below. As mentioned accuracy is not a good metric in a non-classification problem as we try to solve here, thus these values can be discarded.
 
-| Figure 1. Loss and Accuracy plotted over epochs              |
+| Figure 1. Loss and Accuracy plotted over epochs for LeNet based model |
 | ------------------------------------------------------------ |
 | ![Training Loss and Accuray Plot](assets/plots/training-plot-lenet.png) |
 
-The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model02](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model02) as well ass the accompanying source code at this point in time.
+Training loss goes down very steep while the validation loss stays approximately the same.
+
+The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model02](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model02) as well as the accompanying source code at this point in time.
 
 #### Model 3 network iteration
 
@@ -310,27 +327,25 @@ Changes:
 - angle correction 0.3
 - loss went down eac hepoch, raised nr of epochs. (but too low loss resulted in overfitting as the car started to follow lines too closely)
 - removed most pooling layers, add one dropout with low rate between convolution
-- found that keeping loss relatively high kept the smiulator from aiming for the sides of the road, of course quality of sampling has to do with this as well. however the car now was able to drive till just after the bridge in the first track. The epoch are numbered off by one in this plot, it had 5.
+- found that keeping loss relatively high kept the smiulator from aiming for the sides of the road, of course quality of sampling has to do with this as well. however the car now was able to drive till just after the bridge in the first track. The epochs are numbered off by one in this plot,.
 
-![](./assets/plots/training-plot-model03.png)
+| Fig 2. Training and validation Loss, model 03                |
+| ------------------------------------------------------------ |
+| ![Fig 2. Validation Loss](./assets/plots/training-plot-model03.png) |
 
 
 
 #### Model 4 network iteration
 
-For this model, I started focussing on the proper handling of sample data. There was already a generator in place to do more efficient handling but according to the keras docs: *Sequence [keras.utils.Sequence()] are a safer way to do multiprocessing. This structure guarantees that the network will only train once on each sample per epoch which is not the case with generators.* Also, to be able to let the model generalize better, we  need to think about augmenting the data. Last, the model.h5 files saved for model03 became bigger and bigger in file size (~1Gb) and I'd like to take a look at possibilities to decrease this.
+For this model, I started focussing on the proper handling of sample data. There was already a generator in place to do more efficient handling but according to the keras docs: *Sequence [keras.utils.Sequence()] are a safer way to do multiprocessing. This structure guarantees that the network will only train once on each sample per epoch which is not the case with generators.* Therefore I wrote a custom batch handling class based on keras.utils.Sequence, named [CustomDataGenerator](src/augmentation.py)
 
-By now I also experimented so much that one thing I notice is that when I keep the loss around ~0.050 that the car manages to follow the track for the longest periods with current hyperparams.
+Also, to be able to let the model generalize better, we  need to think about augmenting the data. The CustomDataGenerator's `__create_batch` method was refactored to include generation of flipped verisons of both left and right camera images (and their adjusted labels). This made the size of each sample approximately five times bigger, which we need to keep in mind when we try to handle batches effeciently memory wise to avoid Out Of Memory(OOM) errors. Augmenting the samples by adding flipped left and right images, improved the driving experience somewhat in length as it went trough the bend after the bridge, albeit with some near death experiences for the virtual driver, the success ended in the lake in the second right bend after the bridge.
 
-First we explore the Sequence (similar to generator but preferred over generator): increases sample size, make. works, no change as we did not change settings
+By now I also experimented so much that one thing I noticed is that when the loss is kept around  **~0.050** to **~0.040** the car manages to follow the track for the longest periods without changing current hyperparams.
 
-Second, augmented samples by adding fliped left and right images, improved the driving experience somwhat in length as it went trough the bend after the bridge, albeit with some near death experiences for the virtual driver, the success ended in the lake in the second right bend after the bridge.
+Last, the `model.h5` files saved for model03 became bigger and bigger in file size (~1Gb) because no scaling down was happening between convolutional layers apart from one dropout layer with a very low 0.1 dropout rate and a MaxPool. As model 03 architecture wasn't changed yet, an **AveragePooling2D** layer was placed between all Convolutional layers instead to create model 04. The driving behaviour did not improve after these changes so I opted to add an extra **Fully Connected** layer with dimension 50 right before the output layer. Together with changes to dropout (0.7), epochs (10), batches (64) I finally got the simulator do at least **one round on track 1!**
 
-**ONE ROUND ON TRACK !!!**
-
-Changes that helped add AveragePooling2D() between all conv layers, add dropout layer before ouput with dim 50. epochs 10 and dropout rate 0.7, batches 64. model significantly smaller due to extra pooling layer
-
-
+The raw output of the training and a plot of the same data is shown below.
 
 ```bash
 Epoch 1/10
@@ -353,46 +368,25 @@ Epoch 9/10
 49/49 [==============================] - 53s 1s/step - loss: 0.0524 - val_loss: 0.0458
 Epoch 10/10
 49/49 [==============================] - 52s 1s/step - loss: 0.0485 - val_loss: 0.0463
-model backed up as:  ./models/mo
 ```
 
+The plot in figure 3 shows both training and validation losses smoothly converging towards the tenth epoch.
 
+| Figure 3. Loss  plotted over epochs for model 04.            |
+| ------------------------------------------------------------ |
+| ![](/Users/joustava/Workspace/SDCEngineer/CarND-Behavioral-Cloning-Project/assets/plots/training-plot-model04-one-round-rtrack1.png) |
 
+At the end of this process, the vehicle is able to drive autonomously around track one without leaving the road.
 
-
-
-
-
-
-
-
-
-
-
+Future experiments:
 
 [TBD ]Then size of set and removing duplication (losts of images similar as they are made fractions of seconds from each other), try sampling 50% before augmenting
 
 [TBD] Early stoppping loss value as noticed around certain loss the simulation is more capable to drive the track
 
-[recovery data]
+[TBD] Random augmentation of images and angle e.g brightness blur etc.
 
-
-
-
-
-[TBD]
-
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
-
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
-
-To combat the overfitting, I modified the model so that ...
-
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+[TBD] Collect recovery data of tricky sections. 
 
 #### 2. Final Model Architecture
 
@@ -408,11 +402,11 @@ To capture good driving behavior, I first recorded approximately three laps on t
 
 | Left Camera                                                  | Center Camera                                                | Right Camera                                                 |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| ![Left Camera Image](assets/left_2020_12_08_10_46_19_361.jpg) | ![Center Camera Image](assets/center_2020_12_08_10_46_19_361.jpg) | ![Right Camera Image](assets/right_2020_12_08_10_46_19_361.jpg) |
+| ![Left Camera Image](./assets/cameras/left_2020_12_08_10_46_19_361.jpg) | ![Center Camera Image](./assets/cameras/center_2020_12_08_10_46_19_361.jpg) | ![Right Camera Image](./assets/cameras/right_2020_12_08_10_46_19_361.jpg) |
 
 
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+[TBD]I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
 
 ![alt text][image3]
 ![alt text][image4]
@@ -420,7 +414,7 @@ I then recorded the vehicle recovering from the left side and right sides of the
 
 Then I repeated this process on track two in order to get more data points.
 
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
+To augment the data set, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
 
 ![alt text][image6]
 ![alt text][image7]
@@ -438,10 +432,11 @@ I used this training data for training the model. The validation set helped dete
 
 ## Conclusion
 
-- testing to reduce resource usage
+- testing code to reduce resource usage
 - experimentation
-- optimization of data handling
-- 
+- optimization of data handling combat OOM, disk space.
+- Simulation results
+- in retrospect...
 
 ## Resources
 
@@ -450,3 +445,6 @@ I used this training data for training the model. The validation set helped dete
 * http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
 * https://developer.nvidia.com/blog/deep-learning-self-driving-cars/ (web version of above)
 * https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly Custom Data Generator example based on https://keras.io/api/utils/python_utils/#sequence-class
+* https://keras.io/guides/
+* https://keras.io/api/utils/
+* https://keras.io/api/utils/python_utils/#sequence-class

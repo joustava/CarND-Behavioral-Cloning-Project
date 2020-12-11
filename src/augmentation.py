@@ -32,7 +32,7 @@ class CustomDataGenerator(keras.utils.Sequence):
 
     def __getitem__(self, idx):
         """
-        return one batch
+        return the next batch
         """
         start = idx * self.batch_size
         end = (idx + 1) * self.batch_size
@@ -48,20 +48,23 @@ class CustomDataGenerator(keras.utils.Sequence):
 
     def __create_batch(self, batch_samples):
         """
-        Generates a batch of images/labels where steering angle for left and right are adjusted.
+        Generate a batch of images/labels where steering angle for left and right are adjusted.
         """
         X, y = [], []
 
         for batch_sample in batch_samples:
+            # Resolve sample data
             center_img, left_img, right_img = self.__load_images(batch_sample)
             center_angle = float(batch_sample[3])
 
+            # Update inputs
             X.append(center_img)
             X.append(left_img)
             X.append(right_img)
             X.append(np.fliplr(left_img))
             X.append(np.fliplr(right_img))
 
+            # Update outputs
             y.append(center_angle)
             y.append(center_angle + self.correction)
             y.append(center_angle - self.correction)
@@ -75,13 +78,16 @@ class CustomDataGenerator(keras.utils.Sequence):
 
     def __load_images(self, sample):
         """
-        Loads each image found in sample
+        Load each image found in sample
 
         return images in center, left, right order
         """
+        # Resolve filenames
         center_cam = self.base_path + sample[0].split('/')[-1]
         left_cam = self.base_path + sample[1].split('/')[-1]
         right_cam = self.base_path + sample[2].split('/')[-1]
+
+        # Load images
         center_img = ndimage.imread(center_cam)
         left_img = ndimage.imread(left_cam)
         right_img = ndimage.imread(right_cam)

@@ -28,31 +28,24 @@ training_samples, validation_samples = train_test_split(
 steps_per_epoch = ceil(len(training_samples) / batch_size)
 validation_steps = ceil(len(validation_samples) / batch_size)
 
-# Stream/generator for memory efficiency
-# train_generator = generator(training_samples, batch_size=batch_size)
-# validation_generator = generator(validation_samples, batch_size=batch_size)
-
+# Stream batches with a custom keras.utils.Sequence
 train_generator = CustomDataGenerator(training_samples, batch_size=batch_size)
 validation_generator = CustomDataGenerator(
     validation_samples, batch_size=batch_size)
-# Create model
+
+# Create network model
 model = Sequential()
 
 
 # Preprocessing
 # Exclude hood of car and scenery above road horizon from images
 model.add(Cropping2D(cropping=((50, 20), (0, 0)), input_shape=input_shape))
-
-
 # center around zero with small standard deviation
 model.add(Lambda(lambda x: x/127.5 - 1.0,
                  input_shape=cropped_shape, output_shape=cropped_shape))
 
-
 # Layers
-
-model.add(Conv2D(filters=32, kernel_size=(5, 5),
-                 activation='softsign'))
+model.add(Conv2D(filters=32, kernel_size=(5, 5), activation='softsign'))
 model.add(AveragePooling2D())
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5), activation='softsign'))
