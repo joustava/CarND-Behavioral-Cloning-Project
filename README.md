@@ -326,11 +326,53 @@ First we explore the Sequence (similar to generator but preferred over generator
 
 Second, augmented samples by adding fliped left and right images, improved the driving experience somwhat in length as it went trough the bend after the bridge, albeit with some near death experiences for the virtual driver, the success ended in the lake in the second right bend after the bridge.
 
+**ONE ROUND ON TRACK !!!**
+
+Changes that helped add AveragePooling2D() between all conv layers, add dropout layer before ouput with dim 50. epochs 10 and dropout rate 0.7, batches 64. model significantly smaller due to extra pooling layer
 
 
-[TBD] add AveragePooling2D() between all conv layers
+
+```bash
+Epoch 1/10
+49/49 [==============================] - 57s 1s/step - loss: 0.2567 - val_loss: 0.1330
+Epoch 2/10
+49/49 [==============================] - 53s 1s/step - loss: 0.2184 - val_loss: 0.1126
+Epoch 3/10
+49/49 [==============================] - 53s 1s/step - loss: 0.1847 - val_loss: 0.0946
+Epoch 4/10
+49/49 [==============================] - 53s 1s/step - loss: 0.1432 - val_loss: 0.0775
+Epoch 5/10
+49/49 [==============================] - 53s 1s/step - loss: 0.1083 - val_loss: 0.0665
+Epoch 6/10
+49/49 [==============================] - 52s 1s/step - loss: 0.0785 - val_loss: 0.0575
+Epoch 7/10
+49/49 [==============================] - 52s 1s/step - loss: 0.0644 - val_loss: 0.0526
+Epoch 8/10
+49/49 [==============================] - 53s 1s/step - loss: 0.0566 - val_loss: 0.0500
+Epoch 9/10
+49/49 [==============================] - 53s 1s/step - loss: 0.0524 - val_loss: 0.0458
+Epoch 10/10
+49/49 [==============================] - 52s 1s/step - loss: 0.0485 - val_loss: 0.0463
+model backed up as:  ./models/mo
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [TBD ]Then size of set and removing duplication (losts of images similar as they are made fractions of seconds from each other), try sampling 50% before augmenting
+
+[TBD] Early stoppping loss value as noticed around certain loss the simulation is more capable to drive the track
 
 [recovery data]
 

@@ -10,10 +10,10 @@ from augmentation import CustomDataGenerator
 print("Traing model...")
 
 # Hyper params
-epochs = 5
+epochs = 10
 # batch_size = 32  # sample size is increasing 5 fold as we add augmented images
 batch_size = 64
-dropout_rate = 0.5
+dropout_rate = 0.7
 
 # Logging
 verbosity = 1
@@ -53,12 +53,10 @@ model.add(Lambda(lambda x: x/127.5 - 1.0,
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5),
                  activation='softsign'))
-# model.add(AveragePooling2D())
-model.add(Dropout(0.1))
+model.add(AveragePooling2D())
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5), activation='softsign'))
-# model.add(AveragePooling2D())
-model.add(Dropout(0.1))
+model.add(AveragePooling2D())
 
 model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='softsign'))
 
@@ -68,6 +66,9 @@ model.add(Dense(units=512, activation='softsign'))
 model.add(Dropout(dropout_rate))
 
 model.add(Dense(units=256, activation='softsign'))
+model.add(Dropout(dropout_rate))
+
+model.add(Dense(units=50, activation='softsign'))
 model.add(Dropout(dropout_rate))
 
 model.add(Dense(units=1, activation='softsign'))
@@ -82,5 +83,6 @@ training = model.fit_generator(train_generator,
                                validation_steps=validation_steps,
                                epochs=epochs, verbose=verbosity)
 plot_training_history(training)
+model.summary()
 # Backup previous model and save new model
 save_model(model)
