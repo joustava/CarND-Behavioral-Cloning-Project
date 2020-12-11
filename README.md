@@ -74,6 +74,21 @@ Collection of data is done via a simulator, one needs to drive the car around th
 
 Each newly trained model is saved as `./models/model.h5`and as to not overwrite older models the previous files are backed up with their modification timestamp in the file name e.g `model_1607426211.5h`
 
+Versions used:
+
+```bash
+$ python --version
+Python 3.6.3
+$ python -c "import keras; print(keras.__version__)"
+2.0.9
+$ python -c "import tensorflow; print(tensorflow.__version__)"
+1.3.0
+```
+
+
+
+Keras: 2.0.9
+
 ### Files Submitted & Code Quality
 
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode

@@ -42,6 +42,8 @@ model = Sequential()
 # Preprocessing
 # Exclude hood of car and scenery above road horizon from images
 model.add(Cropping2D(cropping=((50, 20), (0, 0)), input_shape=input_shape))
+
+
 # center around zero with small standard deviation
 model.add(Lambda(lambda x: x/127.5 - 1.0,
                  input_shape=cropped_shape, output_shape=cropped_shape))
