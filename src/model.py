@@ -11,7 +11,8 @@ print("Traing model...")
 
 # Hyper params
 epochs = 5
-batch_size = 32
+# batch_size = 32  # sample size is increasing 5 fold as we add augmented images
+batch_size = 64
 dropout_rate = 0.5
 
 # Logging

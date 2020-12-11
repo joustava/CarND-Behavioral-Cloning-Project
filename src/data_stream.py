@@ -6,6 +6,8 @@ import os
 
 def generator(samples, batch_size=64, correction=0.3, image_path='/opt/data/IMG/'):
     """
+    ! Deprecated in favour of augmentation.py
+
     Lazily loads the sample driving data
 
 

@@ -59,10 +59,14 @@ class CustomDataGenerator(keras.utils.Sequence):
             X.append(center_img)
             X.append(left_img)
             X.append(right_img)
+            X.append(np.fliplr(left_img))
+            X.append(np.fliplr(right_img))
 
             y.append(center_angle)
             y.append(center_angle + self.correction)
             y.append(center_angle - self.correction)
+            y.append((center_angle + self.correction) * -1)
+            y.append((center_angle - self.correction) * -1)
 
         X = np.array(X)
         y = np.array(y)

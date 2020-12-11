@@ -305,7 +305,7 @@ Changes:
 
 For this model, I started focussing on the proper handling of sample data. There was already a generator in place to do more efficient handling but according to the keras docs: *Sequence [keras.utils.Sequence()] are a safer way to do multiprocessing. This structure guarantees that the network will only train once on each sample per epoch which is not the case with generators.* Apart from that, the batch handling seemed off as we would set a batch size while training but the generator would create k times bigger batches because we add left and right images and their corresponding steering angles as well. Also, to be able to let the model generalize better, we also needed to think about augmenting the data. Last, the model.h5 files saved for model03 became bigger and bigger in file size (~1Gb) and I'd like to take a look at possibilities to decrease this.
 
-
+By now I also experimented so much that one thing I notice is that when I keep the loss around ~0.050 that the car manages to follow the track for the longest periods.
 
 First we explore the Sequence: 
 
@@ -371,7 +371,12 @@ I used this training data for training the model. The validation set helped dete
 
 
 
+## Conclusion
 
+- testing to reduce resource usage
+- experimentation
+- optimization of data handling
+- 
 
 ## Resources
 
