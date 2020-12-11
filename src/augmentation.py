@@ -16,10 +16,9 @@ class CustomDataGenerator(keras.utils.Sequence):
     only train once on each sample per epoch which is not the case with generators.'
     """
 
-    def __init__(self, samples, batch_size=32, image_path='/opt/data/IMG/'):
+    def __init__(self, samples, batch_size=64, image_path='/opt/data/IMG/'):
         self.samples = samples
         self.base_path = image_path
-        self.log = log_file
         self.batch_size = batch_size
         self.correction = 0.3
         self.on_epoch_end()
