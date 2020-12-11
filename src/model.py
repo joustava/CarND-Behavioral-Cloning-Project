@@ -54,7 +54,8 @@ model.add(Conv2D(filters=32, kernel_size=(5, 5),
 model.add(AveragePooling2D())
 
 model.add(Conv2D(filters=32, kernel_size=(5, 5), activation='softsign'))
-model.add(Dropout(0.2))
+model.add(AveragePooling2D())
+
 model.add(Conv2D(filters=32, kernel_size=(3, 3), activation='softsign'))
 
 model.add(Flatten())

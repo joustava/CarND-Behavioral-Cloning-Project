@@ -303,13 +303,21 @@ Changes:
 
 #### Model 4 network iteration
 
-For this model, I started focussing on the proper handling of sample data. There was already a generator in place to do more efficient handling but according to the keras docs: *Sequence [keras.utils.Sequence()] are a safer way to do multiprocessing. This structure guarantees that the network will only train once on each sample per epoch which is not the case with generators.* Apart from that, the batch handling seemed off as we would set a batch size while training but the generator would create k times bigger batches because we add left and right images and their corresponding steering angles as well. Also, to be able to let the model generalize better, we also needed to think about augmenting the data. Last, the model.h5 files saved for model03 became bigger and bigger in file size (~1Gb) and I'd like to take a look at possibilities to decrease this.
+For this model, I started focussing on the proper handling of sample data. There was already a generator in place to do more efficient handling but according to the keras docs: *Sequence [keras.utils.Sequence()] are a safer way to do multiprocessing. This structure guarantees that the network will only train once on each sample per epoch which is not the case with generators.* Also, to be able to let the model generalize better, we  need to think about augmenting the data. Last, the model.h5 files saved for model03 became bigger and bigger in file size (~1Gb) and I'd like to take a look at possibilities to decrease this.
 
-By now I also experimented so much that one thing I notice is that when I keep the loss around ~0.050 that the car manages to follow the track for the longest periods.
+By now I also experimented so much that one thing I notice is that when I keep the loss around ~0.050 that the car manages to follow the track for the longest periods with current hyperparams.
 
-First we explore the Sequence: 
+First we explore the Sequence (similar to generator but preferred over generator): increases sample size, make. works, no change as we did not change settings
+
+Second, augmented samples by adding fliped left and right images, improved the driving experience somwhat in length as it went trough the bend after the bridge, albeit with some near death experiences for the virtual driver, the success ended in the lake in the second right bend after the bridge.
 
 
+
+[TBD] add AveragePooling2D() between all conv layers
+
+[TBD ]Then size of set and removing duplication (losts of images similar as they are made fractions of seconds from each other), try sampling 50% before augmenting
+
+[recovery data]
 
 
 
@@ -384,3 +392,4 @@ I used this training data for training the model. The validation set helped dete
 * https://github.com/udacity/CarND-Term1-Starter-Kit
 * http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf
 * https://developer.nvidia.com/blog/deep-learning-self-driving-cars/ (web version of above)
+* https://stanford.edu/~shervine/blog/keras-how-to-generate-data-on-the-fly Custom Data Generator example based on https://keras.io/api/utils/python_utils/#sequence-class
