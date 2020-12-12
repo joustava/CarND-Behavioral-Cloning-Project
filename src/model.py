@@ -2,17 +2,17 @@ from data import load_samples, save_model, save_history
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten, Lambda, Conv2D, AveragePooling2D, Cropping2D
 from sklearn.model_selection import train_test_split
-from data_stream import generator
 from math import ceil
 from augmentation import CustomDataGenerator
 
 print("Training model...")
 
+
 # Hyper params
 epochs = 10
-# batch_size = 32  # sample size is increasing 5 fold as we add augmented images
 batch_size = 64
 dropout_rate = 0.7
+
 
 # Logging
 verbosity = 1
@@ -22,21 +22,24 @@ verbosity = 1
 input_shape = (160, 320, 3)
 cropped_shape = (90, 320, 3)
 samples = load_samples()
+
+
 # Splitting training/validation 70/30.
 # Shuffling is done later by the CustomDataGenerator on initialisation and each epoch.
 training_samples, validation_samples = train_test_split(
-    samples, test_size=0.3, shuffle=False)
+    samples, test_size=0.3, shuffle=True)
 steps_per_epoch = ceil(len(training_samples) / batch_size)
 validation_steps = ceil(len(validation_samples) / batch_size)
+
 
 # Stream batches with a custom keras.utils.Sequence
 train_generator = CustomDataGenerator(training_samples, batch_size=batch_size)
 validation_generator = CustomDataGenerator(
     validation_samples, batch_size=batch_size)
 
+
 # Create network model
 model = Sequential()
-
 
 # Preprocessing
 # Exclude hood of car and scenery above road horizon from images
