@@ -2,7 +2,7 @@
 
 # Creates a recording of autonomous driving
 recording:
-		python ./tools/drive.py .models/model.h5 /opt/run1
+		python ./tools/drive.py ./models/model.h5 /opt/run1
 		python ./tools/video.py /opt/run1 --fps 30
 	
 # Runs model to drive autonomously on the simulator
