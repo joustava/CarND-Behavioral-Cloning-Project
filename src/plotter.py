@@ -46,5 +46,5 @@ def visualize(model_file):
     model.summary()
 
 
-arguments = sys.argv
-visualize(arguments[1])
+# arguments = sys.argv
+# visualize(arguments[1])
