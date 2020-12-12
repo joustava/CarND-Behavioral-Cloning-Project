@@ -412,6 +412,48 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 ![alt text][image1]
 
+```bash
+Layer (type)                 Output Shape              Param #   
+=================================================================
+cropping2d_1 (Cropping2D)    (None, 90, 320, 3)        0         
+_________________________________________________________________
+lambda_1 (Lambda)            (None, 90, 320, 3)        0         
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 86, 316, 32)       2432      
+_________________________________________________________________
+average_pooling2d_1 (Average (None, 43, 158, 32)       0         
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 39, 154, 32)       25632     
+_________________________________________________________________
+average_pooling2d_2 (Average (None, 19, 77, 32)        0         
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 17, 75, 32)        9248      
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 40800)             0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 512)               20890112  
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 512)               0         
+_________________________________________________________________
+dense_2 (Dense)              (None, 256)               131328    
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 256)               0         
+_________________________________________________________________
+dense_3 (Dense)              (None, 50)                12850     
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 50)                0         
+_________________________________________________________________
+dense_4 (Dense)              (None, 1)                 51        
+=================================================================
+Total params: 21,071,653
+Trainable params: 21,071,653
+Non-trainable params: 0
+```
+
+
+
+
+
 #### 3. Creation of the Training Set & Training Process
 
 To capture good driving behavior, I first recorded approximately three laps on track one using center lane driving, as good as my driving skills and simulator lag let me. Here are example image captures of center lane driving where left, right and center are images from the same moment in time (2020-12-08 at 10:46:19.361 CET) from each camera. The position is where the simulator drops the car at the start.

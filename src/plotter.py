@@ -28,21 +28,21 @@ def plot_training_history(history, save_as_file='./assets/plots/training-plot.pn
 def plot_keras_model(model):
     plot_model(
         model,
-        to_file="./plots/network-model.png",
+        to_file="./assets/plots/network-model.png",
         show_shapes=True,
-        show_dtype=True,
+        #         show_dtype=True,
         show_layer_names=True,
         rankdir="TB",
-        expand_nested=False,
-        dpi=96,
+        #         expand_nested=False,
+        #         dpi=96,
     )
 
 
 def visualize(model_file):
-    history = load_history()
+    #     history = load_history()
     model = load_model(model_file)
     plot_keras_model(model)
-    plot_training_history(history)
+#     plot_training_history(history)
     model.summary()
 
 
