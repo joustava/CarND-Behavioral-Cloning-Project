@@ -83,6 +83,7 @@ $ python -c "import keras; print(keras.__version__)"
 2.0.9
 $ python -c "import tensorflow; print(tensorflow.__version__)"
 1.3.0
+$ pip install pydot # Needs to be installed (v 1.4.1) for plotting certain graphs with keras.
 ```
 
 ### Files Submitted & Code Quality
@@ -94,7 +95,7 @@ My project includes the following required files:
 * `./tools/drive.py` for driving the car in autonomous mode
 * `./models/model.h5` containing a trained convolution neural network 
 * `README.md` summarizing the results (this is what you are reading right now)
-* `./assets/videos/video.mp4` showcasing the simulation conquer track one.
+* `./assets/video.mp4` showcasing the simulation conquer track one.
 
 The major structure of my project files summarized:
 
@@ -166,21 +167,21 @@ The `./scr/model.py` file contains the code for training and saving the convolut
 
 My final model consists of several convolution layers with 5x5 and 3x3 filter sizes all having the same depth of 32. [link] Which are connected to several Fully Connected layers through a Flatten layer.
 
-The model includes *softsign* activation functions to introduce nonlinearity [link] and the data is normalized in the model using a Keras lambda layer [link]
+The model includes *softsign* activation functions to introduce nonlinearity [link] and the input data is normalized and preporcessed in the model using a Keras lambda layer [link]
 
 #### 2. Attempts to reduce overfitting in the model
 
 The model contains dropout layers between each Fully Connected layer in order to reduce overfitting [(model.py lines 21). ]
 
-The model was trained with 70% of the sample data and validated with the remaining 30% through randomized batch sets to ensure that the model was not overfitting[link]. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained with 70% of the sample data and validated with the remaining 30% fo the data through randomized batch sets to ensure that the model was not overfitting[link]. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model uses the [Adam](https://keras.io/api/optimizers/adam/) optimizer, so the learning rate is not tuned manually and this optimizer will start learning with a rate of 0.001. [link to line in repo]. Hyperparameters and additional information about the resulting network  is covered in the Final Model Architecture section.
+The model uses the [Adam](https://keras.io/api/optimizers/adam/) optimizer, in which the learning rate does not need to be  tuned manually and this optimizer will start learning with a rate of 0.001. [link to line in repo]. Hyperparameters and additional information about the resulting network  is covered in the Final Model Architecture section.
 
 #### 4. Appropriate training data
 
-The training data consists solely of samples taken during three uninterrupted laps on track one. Each sample is expanded by using all three images with steering angle corrected for each left and right camera based on the original angle. Improving generalisation of the model was done by once more extending sample size by generation of horizontally flipped images of the left and right camera and the steering angle.
+[TBD]The training data consists solely of samples taken during three uninterrupted laps on track one. Each sample is expanded by using all three images with steering angle corrected for each left and right camera based on the original angle. Improving generalisation of the model was done by once more extending sample size by generation of horizontally flipped images of the left and right camera and the steering angle.
 
 For details about how I created the training data, see the next section. 
 
@@ -406,11 +407,7 @@ Future experiments:
 
 #### 2. Final Model Architecture
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
-
-![alt text][image1]
+The final model architecture consisted of a convolution neural network with the following layers and layer sizes:
 
 ```bash
 Layer (type)                 Output Shape              Param #   
@@ -450,23 +447,50 @@ Trainable params: 21,071,653
 Non-trainable params: 0
 ```
 
+Here is a visualization of the architecture created with Keras' [plotting utilities](https://keras.io/api/utils/model_plotting_utils/)
 
 
 
+![Figure of network model](/Users/joustava/Workspace/SDCEngineer/CarND-Behavioral-Cloning-Project/assets/plots/network-model.png)
+
+
+
+The video of one round on track 1, counter-clockwise, can be found from the [assets](./assets/video.mp4) folder
 
 #### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded approximately three laps on track one using center lane driving, as good as my driving skills and simulator lag let me. Here are example image captures of center lane driving where left, right and center are images from the same moment in time (2020-12-08 at 10:46:19.361 CET) from each camera. The position is where the simulator drops the car at the start.
+To capture good driving behavior, I first recorded approximately three counter-clockwise laps on track one using center lane driving, as good as my driving skills and simulator lag let me. Here are example image captures of center lane driving where left, right and center are images from the same moment in time (2020-12-08 at 10:46:19.361 CET) from each camera. The position is where the simulator drops the car at the start.
 
 | Left Camera                                                  | Center Camera                                                | Right Camera                                                 |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![Left Camera Image](./assets/cameras/left_2020_12_08_10_46_19_361.jpg) | ![Center Camera Image](./assets/cameras/center_2020_12_08_10_46_19_361.jpg) | ![Right Camera Image](./assets/cameras/right_2020_12_08_10_46_19_361.jpg) |
 
-This resulted in a total of 13443 images, 4481 images per camera. The capturing rate in my environment seemed to be around 14 images per second. This means we have about 4481/14/60 = 5:30 minutes of driving.   
+This resulted in a total of 13443 images, 4481 images per camera. The capturing rate in my environment seemed to be around 15 images per second. This means we have 4481/15/60, aproximately 5 minutes of driving. These images we then normalized and preprocessed during the fitting operations, by flipping the left and rigth images and their steering angles. This was enough to train the model for driving at least one full round counter-clockwise on track one.
+
+Testing the model by reversing direction and starting the simulator showed that the model was not generalised enough to drive in the reverse direction. I then recorded one lap driving clock-wise on track one and merged these externally with the help of the command line and bundled them in one zip file to be able to upload them easily to the workspace
+
+```bash
+# Example: appending two plain csv files
+$ cat ~/<collection_one>/data/driving_log.csv >> ~/<all>/data/driving_log.csv
+$ cat ~/<collection_two>/data/driving_log.csv >> ~/<all>/data/driving_log.csv
+
+# Example: Syncing all images
+rsync -a ~/<collection_one>/data/IMG/ ~<all>/data/IMG/ --ignore-existing
+rsync -a ~/<collection_two>/data/IMG/ ~<all>/data/IMG/ --ignore-existing
+
+# Exampe: Compressing all
+
+```
 
 
 
-[TBD]I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+
+
+
+
+
+
+
 
 ![alt text][image3]
 ![alt text][image4]
