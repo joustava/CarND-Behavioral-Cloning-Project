@@ -381,8 +381,18 @@ At the end of this process, the vehicle is able to drive autonomously around tra
 [TBD] explain plots
 
 - convergence over epochs (slope).
+
 - plateau of the line
+
 - over-learning the training data (inflection for validation line).
+
+- Since this model outputs a single continuous numeric value, one appropriate error metric would be mean squared error. If the mean squared error is high on both a training and validation set, the model is underfitting. If the mean squared error is low on a training set but high on a validation set, the model is overfitting. Collecting more data can help improve a model when the model is overfitting.
+
+  What if the model has a low mean squared error on both the training and validation sets, but the car is falling off the track?
+
+  Try to figure out the cases where the vehicle is falling off the track. Does it occur only on turns? Then maybe it's important to collect more turning data. The vehicle's driving behavior is only as good as the behavior of the driver who provided the data.
+
+  
 
 Future experiments:
 

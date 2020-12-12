@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from keras.models import load_model
 from keras.utils import plot_model
 from data import load_history
+import sys
 
 
 def plot_training_history(history, save_as_file='./assets/plots/training-plot.png'):
