@@ -2,6 +2,7 @@ import csv
 import time
 import os
 import datetime
+import pickle
 
 
 def save_history(history, history_path='./assets/pickles/history.pickle'):

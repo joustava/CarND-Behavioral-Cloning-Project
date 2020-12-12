@@ -486,11 +486,17 @@ This works as each sample is logged in the csv on different rows and each image 
 
 The result is a total of 6089 samples and three times as much (18267) images which we then used to retrain model 04 with the same preprocessing. Note that the first set was sampled by driving by mouse and the second with the keyboard. 
 
-[TBD]WORSE RESULTS, validation loss goes up see last epoch...
+[TBD]WORSE RESULTS, validation loss goes up see last epoch... but is related to erroneouly not shuffling before the data split.
 
 ```
 Epoch 10/10
 67/67 [==============================] - 70s 1s/step - loss: 0.0794 - val_loss: 0.1030
+```
+
+after changin this. and bumping up the dropout to 0.8. thr results were
+
+```bash
+
 ```
 
 

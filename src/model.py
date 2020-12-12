@@ -11,7 +11,7 @@ print("Training model...")
 # Hyper params
 epochs = 10
 batch_size = 64
-dropout_rate = 0.7
+dropout_rate = 0.8
 
 
 # Logging
