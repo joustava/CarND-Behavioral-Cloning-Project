@@ -455,7 +455,17 @@ Here is a visualization of the architecture created with Keras' [plotting utilit
 
 
 
-The video of one round on track 1, counter-clockwise, can be found from the [assets](./assets/video.mp4) folder
+The video of one round on track 1, counter-clockwise, can be found from the [assets](./assets/video.mp4) folder. The activation function used for all the layers was *softsign*
+
+Batch 64
+
+dropout 0.8 (first 0.7 but change after datet expansion)
+
+Epochs 10
+
+
+
+
 
 #### 3. Creation of the Training Set & Training Process
 

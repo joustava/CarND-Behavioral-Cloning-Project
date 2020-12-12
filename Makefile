@@ -1,4 +1,4 @@
-.PHONY: recording video simulation training prediction visualization gitconf
+.PHONY: create_video test_model train_model
 
 # Creates a recording of autonomous driving
 recording:
