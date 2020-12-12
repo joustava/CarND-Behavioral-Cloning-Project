@@ -11,7 +11,7 @@ print("Training model...")
 # Hyper params
 epochs = 10
 batch_size = 64
-dropout_rate = 0.8
+dropout_rate = 0.85
 
 
 # Logging
@@ -81,5 +81,6 @@ training = model.fit_generator(train_generator,
                                epochs=epochs, verbose=verbosity)
 
 # Backup model and history
-save_history(training)
+# save_history(training)
+plot_training_history(training)
 save_model(model)
