@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from keras.models import load_model
+from keras.utils import plot_model
+from data import load_history
 
 
 def plot_training_history(history, save_as_file='./assets/plots/training-plot.png'):
@@ -19,3 +22,28 @@ def plot_training_history(history, save_as_file='./assets/plots/training-plot.pn
     plt.ylabel("Loss")
     plt.legend()
     plt.savefig(save_as_file)
+
+
+def plot_keras_model(model):
+    plot_model(
+        model,
+        to_file="./plots/network-model.png",
+        show_shapes=True,
+        show_dtype=True,
+        show_layer_names=True,
+        rankdir="TB",
+        expand_nested=False,
+        dpi=96,
+    )
+
+
+def visualize(model_file):
+    history = load_history()
+    model = load_model(model_file)
+    plot_keras_model(model)
+    plot_training_history(history)
+    model.summary()
+
+
+arguments = sys.argv
+visualize(arguments[1])

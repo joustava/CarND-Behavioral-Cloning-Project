@@ -378,6 +378,12 @@ The plot in figure 3 shows both training and validation losses smoothly convergi
 
 At the end of this process, the vehicle is able to drive autonomously around track one without leaving the road.
 
+[TBD] explain plots
+
+- convergence over epochs (slope).
+- plateau of the line
+- over-learning the training data (inflection for validation line).
+
 Future experiments:
 
 [TBD ]Then size of set and removing duplication (losts of images similar as they are made fractions of seconds from each other), try sampling 50% before augmenting
@@ -398,11 +404,13 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 #### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded approximately three laps on track one using center lane driving, as good as my driving skills and simulator lag let me. Here is an example image of center lane driving where left, right and center are images from the same moment in time (2020-12-08 at 10:46:19.361 CET)
+To capture good driving behavior, I first recorded approximately three laps on track one using center lane driving, as good as my driving skills and simulator lag let me. Here are example image captures of center lane driving where left, right and center are images from the same moment in time (2020-12-08 at 10:46:19.361 CET) from each camera. The position is where the simulator drops the car at the start.
 
 | Left Camera                                                  | Center Camera                                                | Right Camera                                                 |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![Left Camera Image](./assets/cameras/left_2020_12_08_10_46_19_361.jpg) | ![Center Camera Image](./assets/cameras/center_2020_12_08_10_46_19_361.jpg) | ![Right Camera Image](./assets/cameras/right_2020_12_08_10_46_19_361.jpg) |
+
+This resulted in a total of 13443 images, 4481 images per camera. The capturing rate in my environment seemed to be around 14 images per second. This means we have about 4481/14/60 = 5:30 minutes of driving.   
 
 
 

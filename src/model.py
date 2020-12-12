@@ -1,13 +1,12 @@
-from data import load_samples, save_model
+from data import load_samples, save_model, save_history
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten, Lambda, Conv2D, AveragePooling2D, MaxPooling2D, Cropping2D
+from keras.layers import Dense, Dropout, Flatten, Lambda, Conv2D, AveragePooling2D, Cropping2D
 from sklearn.model_selection import train_test_split
 from data_stream import generator
 from math import ceil
-from plotter import plot_training_history
 from augmentation import CustomDataGenerator
 
-print("Traing model...")
+print("Training model...")
 
 # Hyper params
 epochs = 10
@@ -23,8 +22,10 @@ verbosity = 1
 input_shape = (160, 320, 3)
 cropped_shape = (90, 320, 3)
 samples = load_samples()
+# Splitting training/validation 70/30.
+# Shuffling is done later by the CustomDataGenerator on initialisation and each epoch.
 training_samples, validation_samples = train_test_split(
-    samples, test_size=0.3, shuffle=True)
+    samples, test_size=0.3, shuffle=False)
 steps_per_epoch = ceil(len(training_samples) / batch_size)
 validation_steps = ceil(len(validation_samples) / batch_size)
 
@@ -75,7 +76,7 @@ training = model.fit_generator(train_generator,
                                validation_data=validation_generator,
                                validation_steps=validation_steps,
                                epochs=epochs, verbose=verbosity)
-plot_training_history(training)
-model.summary()
-# Backup previous model and save new model
+
+# Backup model and history
+save_history(training)
 save_model(model)

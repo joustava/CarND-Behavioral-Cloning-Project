@@ -16,6 +16,8 @@ training:
 prediction:
 		python ./src/predict.py
 
+visualization:
+		python ./src/visualize-net.py
 # Set some git configurations. Only run on the workspace
 # gitconf:
 # 		git config user.email "joustava@gmail.com"

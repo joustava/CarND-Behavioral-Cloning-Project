@@ -9,7 +9,7 @@ def save_history(history, history_path='./assets/pickles/history.pickle'):
         pickle.dump(history.history, file)
 
 
-def load_history(history, history_path='./assets/pickles/history.pickle'):
+def load_history(history_path='./assets/pickles/history.pickle'):
     file = open(history_path, 'rb')
     history = pickle.load(file)
     file.close()
