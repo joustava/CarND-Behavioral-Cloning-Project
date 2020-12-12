@@ -4,6 +4,7 @@ from keras.layers import Dense, Dropout, Flatten, Lambda, Conv2D, AveragePooling
 from sklearn.model_selection import train_test_split
 from math import ceil
 from augmentation import CustomDataGenerator
+from plotter import plot_training_history
 
 print("Training model...")
 
@@ -11,7 +12,7 @@ print("Training model...")
 # Hyper params
 epochs = 10
 batch_size = 64
-dropout_rate = 0.85
+dropout_rate = 0.7
 
 
 # Logging
