@@ -34,36 +34,6 @@ The following checklist needs to be implemented in order for the project to succ
 
 - [ ] The simulator contains two tracks. To meet specifications, the car must successfully drive around track one. Track two is more difficult. See if you can get the car to stay on the road for track two as well.
 
-## Notes
-
-- Sample Data: there is sample driving data available in the workspace but this needs augmentation and additional data from driving myself.
-- Simulator: use mouse, R shorcut for recording. W or S suspend auto mode. Use smallest and fastest screen setting in simulator
-- Data collection:
-  - the car should stay in the center of the road as much as possible but we probably need
-    - two or three laps of center lane driving
-    - one lap of recovery driving from the sides
-    - one lap focusing on driving smoothly around curves
-  - if the car veers off to the side, it should recover back to center
-  - driving counter-clockwise can help the model generalize
-  - flipping the images is a quick way to augment the data
-  - collecting data from the second track can also help generalize the model
-  - we want to avoid overfitting or underfitting when training the model
-  - knowing when to stop collecting more data
-- steering is from -1 to 1 (tanh ?) in simulator angle of -25 to 25 degree
-- three camera viewpoints per timestamp + sensor data. steering only concidered in this project
-- ~~can use scp to copy training data from local simulator to remote GPU instance~~
-- If model predictions are poor on both the training and validation set (for example, mean squared error is high on both), then this is evidence of underfitting. Possible solutions could be to
-  - increase the number of epochs
-  - add more convolutions to the network.
-- When the model predicts well on the training set but poorly on the validation set (for example, low mean squared error for training set, high mean squared error for validation set), this is evidence of overfitting. If the model is overfitting, a few ideas could be to
-  - use dropout or pooling layers
-  - use fewer convolution or fewer fully connected layers
-  - collect more data or further augment the data set
-- Augment by flipping, brightness etc the data (and angle) with keras tf.image features
-- use side images and add correction to steering maybe even trig function to generate values (Project, Concept 13)
-- preprocess images by cropping top 70 and bottom 25, Cropping2D(cropping=((70,25),(0,0)))
-- start with simple network to check basic setup/workflow, then try e.g Lenet or something else to improve. then simultanously try preprocessing techniques
-
 ## Writeup
 
 ### Workflow
@@ -165,23 +135,21 @@ The `./scr/model.py` file contains the code for training and saving the convolut
 
 #### 1. An appropriate model architecture has been employed
 
-My final model consists of several convolution layers with 5x5 and 3x3 filter sizes all having the same depth of 32. [link] Which are connected to several Fully Connected layers through a Flatten layer.
+My final model consists of several convolution layers with 5x5 and 3x3 filter sizes all having the same depth of 32. Which are connected to several Fully Connected layers through a Flatten layer.
 
-The model includes *softsign* activation functions to introduce nonlinearity [link] and the input data is normalized and preporcessed in the model using a Keras lambda layer [link]
+The model includes *softsign* activation functions to introduce nonlinearity and the input data is normalized and preprocessed in the model using a Keras lambda layer. See [model.py](./src/model.py) for details.
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers between each Fully Connected layer in order to reduce overfitting [(model.py lines 21). ]
-
-The model was trained with 70% of the sample data and validated with the remaining 30% fo the data through randomized batch sets to ensure that the model was not overfitting[link]. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model contains dropout layers between each Fully Connected layer in order to reduce overfitting and  was trained with 70% of the sample data and validated with the remaining 30% fo the data through randomized batch sets to. The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model uses the [Adam](https://keras.io/api/optimizers/adam/) optimizer, in which the learning rate does not need to be  tuned manually and this optimizer will start learning with a rate of 0.001. [link to line in repo]. Hyperparameters and additional information about the resulting network  is covered in the Final Model Architecture section.
+The model uses the [Adam](https://keras.io/api/optimizers/adam/) optimizer, in which the learning rate does not need to be  tuned manually and this optimizer will start learning with a rate of 0.001. Hyperparameters and additional information about the resulting network  is covered in the Final Model Architecture section.
 
 #### 4. Appropriate training data
 
-[TBD]The training data consists solely of samples taken during three uninterrupted laps on track one. Each sample is expanded by using all three images with steering angle corrected for each left and right camera based on the original angle. Improving generalisation of the model was done by once more extending sample size by generation of horizontally flipped images of the left and right camera and the steering angle.
+The training data consists solely of samples taken during three uninterrupted laps on track one. Each sample is expanded by using all three images with steering angle corrected for each left and right camera based on the original angle. Improving generalisation of the model was done by once more extending sample size by generation of horizontally flipped images of the left and right camera and the steering angle.
 
 For details about how I created the training data, see the next section. 
 
@@ -208,13 +176,13 @@ model.compile(loss='mse', optimizer='adam')
 # ... omitted
 ```
 
-The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01) as well ass the accompanying source code. The model did not do well in the simulator, after about 10 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place however, while building this simple network we created a project structure and tooling to support further research.
+The produced model can be found under repository [tag model01](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model01) as well ass the accompanying source code. The model did not do well in the simulator, after about 10 seconds the car drove of track into the woods and the model was driving very unsure, steering all over the place however, while building this simple network we created a project structure and tooling to support further research.
 
 #### LeNet based network iteration
 
 Secondly, a LeNet like network was build and trained with the original data. This model was conciderable more certain in steering and drove more stable for about 20 seconds. It started aiming for the red and white borders and got stuck on the right side 'concrete' ledge. Not a success either.
 
-Before trying out a new neural network model, additional data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss (around 1.1055 mostly) and thus a dropout layer was added between each dense layer, each with a dropout rate of 0.5, to reduce overfitting. The training result output is plotted below
+Before trying out a new neural network model, additional data was pulled into the training data in the form of the left and right camera feeds and their adjusted steering angles. Training on this data, which was tripled in size, did not reduce loss (around 1.1055 mostly) and thus a dropout layer was added between each dense layer, each with a dropout rate of 0.5, to reduce overfitting. The training result output can be seen below.
 
 ```bash
 112/112 [==============================] - 50s 443ms/step - loss: 0.0538 - val_loss: 0.0036
@@ -241,7 +209,7 @@ Epoch 10/10
 These look like good training results but again the simulator just drove on center for a while to then start tracking the road along the outside of the left bank. One more step to the data processing was added to crop the images such that the horizon above the road surface and the hood of the car were cropped from each image. The results of the training were similar to the training applied above, however the simulator still ran off track pretty soon.
 
 ```bash
-name: Tesla K80, pci bus id: 0000:00:04.0)
+Epoch 1/10
 112/112 [==============================] - 35s 310ms/step - loss: 0.0404 - val_loss: 0.0113
 Epoch 2/10
 112/112 [==============================] - 30s 267ms/step - loss: 0.0129 - val_loss: 0.0097
@@ -263,23 +231,20 @@ Epoch 10/10
 112/112 [==============================] - 30s 270ms/step - loss: 0.0079 - val_loss: 0.0075
 ```
 
-These previous results made me start to inspect the data more closely. Made predictions for the outputs for center, left and right images on this network were as follows
+These previous results made me start to inspect the data more closely. Predictions (steering angles) were inspected for the outputs for center, left and right images, the results are were as follows
 
 ```bash
-TBD: Check from lenet branch
-./assets/center_2020_12_08_10_46_19_361.jpg
-# Car is near center of lane
+# Center cam
 CENTER:  [0.32672474] 
 LEFT:      [0.20746137] 
 RIGHT:     [0.35259765] 
 
- ./assets/left_2020_12_08_10_46_19_361.jpg
-# Car is near 
+# Left cam
 CENTER:  [0.09711259] 
 LEFT:      [-0.06863123] 
 RIGHT:     [0.09685086] 
 
- ./assets/right_2020_12_08_10_46_19_361.jpg
+# Right cam
 CENTER:  [0.2572524] 
 LEFT:      [0.22326781] 
 RIGHT:     [0.20886575] 
@@ -316,19 +281,13 @@ The plot of these values can be found from figure 1 below. As mentioned accuracy
 | ------------------------------------------------------------ |
 | ![Training Loss and Accuray Plot](assets/plots/training-plot-lenet.png) |
 
-Training loss goes down very steep while the validation loss stays approximately the same.
+Training loss goes down very steep while the validation loss stays approximately the same. It does not look like a great learning curve. 
 
-The produced model can be found in [`./models/model01.h5`](./models/model01.h5) under epository [tag model02](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model02) as well as the accompanying source code at this point in time.
+The produced model can be found under epository [tag model02](https://github.com/joustava/CarND-Behavioral-Cloning-Project/tree/model02) as well as the accompanying source code.
 
 #### Model 3 network iteration
 
-Changes:
-
-- generato batch 32 (bigger gives OOM)
-- angle correction 0.3
-- loss went down eac hepoch, raised nr of epochs. (but too low loss resulted in overfitting as the car started to follow lines too closely)
-- removed most pooling layers, add one dropout with low rate between convolution
-- found that keeping loss relatively high kept the smiulator from aiming for the sides of the road, of course quality of sampling has to do with this as well. however the car now was able to drive till just after the bridge in the first track. The epochs are numbered off by one in this plot,.
+As an experiment I removed most pooling layers, added one dropout with low rate (0.1) between the convolutional layers, and together with changes to the batch size (32) and steering angle correction (0.3) the loss went down each epoch. Result was that loss was kept relatively high this kept the  smiulator from aiming for the sides of the road, of course quality of sampling has to do with this as well. However the car now was able to drive till just after the bridge in the first track. The epochs are numbered off by one in this plot but the learning curves look much better now.
 
 | Fig 2. Training and validation Loss, model 03                |
 | ------------------------------------------------------------ |
@@ -340,11 +299,11 @@ Changes:
 
 For this model, I started focussing on the proper handling of sample data. There was already a generator in place to do more efficient handling but according to the keras docs: *Sequence [keras.utils.Sequence()] are a safer way to do multiprocessing. This structure guarantees that the network will only train once on each sample per epoch which is not the case with generators.* Therefore I wrote a custom batch handling class based on keras.utils.Sequence, named [CustomDataGenerator](src/augmentation.py)
 
-Also, to be able to let the model generalize better, we  need to think about augmenting the data. The CustomDataGenerator's `__create_batch` method was refactored to include generation of flipped verisons of both left and right camera images (and their adjusted labels). This made the size of each sample approximately five times bigger, which we need to keep in mind when we try to handle batches effeciently memory wise to avoid Out Of Memory(OOM) errors. Augmenting the samples by adding flipped left and right images, improved the driving experience somewhat in length as it went trough the bend after the bridge, albeit with some near death experiences for the virtual driver, the success ended in the lake in the second right bend after the bridge.
+Also, to be able to let the model generalize better, we  need to think about augmenting the data. The CustomDataGenerator's `__create_batch` method was refactored to include generation of flipped verisons of both left and right camera images (and their adjusted labels). This made the size of each sample approximately five times bigger, which we need to keep in mind when we try to handle batches effeciently memory wise to avoid Out Of Memory (OOM) errors. Augmenting the samples by adding flipped left and right images, improved the driving experience somewhat in length as it went trough the bend after the bridge, albeit with some near death experiences for the virtual driver, the success ended in the lake in the second right bend after the bridge.
 
-By now I also experimented so much that one thing I noticed is that when the loss is kept around  **~0.050** to **~0.040** the car manages to follow the track for the longest periods without changing current hyperparams.
+By now I also experimented so much that one thing I noticed is that when the loss is kept around  **~0.050** to **~0.040**  in this particular model the car manages to follow the track for the longest periods without changing current hyperparams.
 
-Last, the `model.h5` files saved for model03 became bigger and bigger in file size (~1Gb) because no scaling down was happening between convolutional layers apart from one dropout layer with a very low 0.1 dropout rate and a MaxPool. As model 03 architecture wasn't changed yet, an **AveragePooling2D** layer was placed between all Convolutional layers instead to create model 04. The driving behaviour did not improve after these changes so I opted to add an extra **Fully Connected** layer with dimension 50 right before the output layer. Together with changes to dropout (0.7), epochs (10), batches (64) I finally got the simulator do at least **one round on track 1!**
+Last, the `model.h5` files saved for previous models became bigger and bigger in file size (~1Gb) because no scaling down was happening between convolutional layers apart from one dropout layer with a very low 0.1 dropout rate and a MaxPool. Model 3 architecture wasn changed to include an **AveragePooling2D** layer between all Convolutional layers instead to create model 4. The driving behaviour did not improve after these changes so I opted to add an extra **Fully Connected** layer with dimension 50 right before the output layer. Together with changes to dropout (0.7), epochs (10), batches (64) I finally got the simulator do at least **one round on track 1!**
 
 The raw output of the training and a plot of the same data is shown below.
 
@@ -378,32 +337,6 @@ The plot in figure 3 shows both training and validation losses smoothly convergi
 | ![](/Users/joustava/Workspace/SDCEngineer/CarND-Behavioral-Cloning-Project/assets/plots/training-plot-model04-one-round-rtrack1.png) |
 
 At the end of this process, the vehicle is able to drive autonomously around track one without leaving the road.
-
-[TBD] explain plots
-
-- convergence over epochs (slope).
-
-- plateau of the line
-
-- over-learning the training data (inflection for validation line).
-
-- Since this model outputs a single continuous numeric value, one appropriate error metric would be mean squared error. If the mean squared error is high on both a training and validation set, the model is underfitting. If the mean squared error is low on a training set but high on a validation set, the model is overfitting. Collecting more data can help improve a model when the model is overfitting.
-
-  What if the model has a low mean squared error on both the training and validation sets, but the car is falling off the track?
-
-  Try to figure out the cases where the vehicle is falling off the track. Does it occur only on turns? Then maybe it's important to collect more turning data. The vehicle's driving behavior is only as good as the behavior of the driver who provided the data.
-
-  
-
-Future experiments:
-
-[TBD ]Then size of set and removing duplication (losts of images similar as they are made fractions of seconds from each other), try sampling 50% before augmenting
-
-[TBD] Early stoppping loss value as noticed around certain loss the simulation is more capable to drive the track
-
-[TBD] Random augmentation of images and angle e.g brightness blur etc.
-
-[TBD] Collect recovery data of tricky sections. 
 
 #### 2. Final Model Architecture
 
@@ -459,11 +392,11 @@ The video of one round on track 1, counter-clockwise, can be found from the [ass
 
 Batch 64
 
-dropout 0.8 (first 0.7 but change after datet expansion)
+dropout 0.7 
 
 Epochs 10
 
-
+Adam optimizer	
 
 
 
@@ -477,7 +410,7 @@ To capture good driving behavior, I first recorded approximately three counter-c
 
 This resulted in a total of 13443 images, 4481 images per camera. The capturing rate in my environment seemed to be around 15 images per second. This means we have 4481/15/60, aproximately 5 minutes of driving. These images we then normalized and preprocessed during the fitting operations, by flipping the left and rigth images and their steering angles. This was enough to train the model for driving at least one full round counter-clockwise on track one.
 
-Testing the model by reversing direction and starting the simulator showed that the model was not generalised enough to drive in the reverse direction. I then recorded one lap driving clock-wise on track one and merged these externally with the help of the command line and bundled them in one zip file to be able to upload them easily to the workspace
+Testing the model 04 by reversing direction and starting the simulator showed that the model was not generalised enough to drive in the reverse direction. I then recorded one lap driving clock-wise on track one and merged these externally with the help of the command line and bundled them in one zip file to be able to upload them easily to the workspace
 
 ```bash
 # Example: appending two plain csv files
@@ -494,58 +427,11 @@ rsync -a ~/<collection_two>/data/IMG/ ~<all>/data/IMG/ --ignore-existing
 
 This works as each sample is logged in the csv on different rows and each image has a unique timestamp.
 
-The result is a total of 6089 samples and three times as much (18267) images which we then used to retrain model 04 with the same preprocessing. Note that the first set was sampled by driving by mouse and the second with the keyboard. 
-
-[TBD]WORSE RESULTS, validation loss goes up see last epoch... but is related to erroneouly not shuffling before the data split.
-
-```
-Epoch 10/10
-67/67 [==============================] - 70s 1s/step - loss: 0.0794 - val_loss: 0.1030
-```
-
-after changin this. and bumping up the dropout to 0.8. thr results were
-
-```bash
-
-```
-
-
-
-
-
-
-
-
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data set, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
-
-
+The result is a total of 6089 samples and three times as much (18267) images which we then used to retrain model 04 with the same preprocessing. Note that the first set was sampled by driving by mouse and the second with the keyboard. Unfortunately training on this dat worsened the driving behaviour of model 04.
 
 ## Conclusion
 
-- testing code to reduce resource usage
-- experimentation
-- optimization of data handling combat OOM, disk space.
-- Simulation results
-- in retrospect...
+This project is challenging and resource intensive as a lot of data inspection, by plotting, and training experiments need to be done. To reduce usage of valueable GPU time it is best to modularize and test that code that can easily be run on a CPU before starting to train. It was very challenging to do the proper sampling as the simulator was very unresponsive on both workspace and local developer machine. Nevertheless one model was trained to drive counter-clockwise for at least one round.
 
 ## Resources
 
