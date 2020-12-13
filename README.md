@@ -61,11 +61,11 @@ $ pip install pydot # Needs to be installed (v 1.4.1) for plotting certain graph
 #### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following required files:
-* `./src/model.py` containing the script to create and train the model
-* `./tools/drive.py` for driving the car in autonomous mode
+*  [`./src/model.py`](./src/model.py)containing the script to create and train the model
+* [`./tools/drive.py`](./tools/drive.py) for driving the car in autonomous mode (unmodified)
 * [model04 stored on Dropbox](https://www.dropbox.com/s/nd2k05slx69r6yx/model04.h5?dl=0) containing a trained convolution neural network trained with the final setup.
 * `README.md` summarizing the results (this is what you are reading right now)
-* `./assets/video.mp4` showcasing the simulation conquer track one.
+* [`./assets/video.mp4`](./assets/video.mp4) showcasing the simulation conquer track one, counter-clockwise.
 
 The major structure of my project files summarized:
 
@@ -129,7 +129,13 @@ If training fails, due to not being able to find the samples in `/opt` folder th
 
 #### 3. Submission code is usable and readable
 
-The `./scr/model.py` file contains the code for training and saving the convolution neural network. The file shows the pipeline used for training and validating the model and it contains comments to explain how the code works. Secondary functionality such as loading data, saving the models and generating test data has been split up into independent files and imported into `./src/model.py` accordingly. These files are also extensively commented and documented.
+The [`./scr/model.py`](./src/model.py) file contains the code for training and saving the convolution neural network. The file shows the pipeline used for training and validating the model and it contains comments to explain how the code works. Secondary functionality such as loading data, saving the models and generating test data has been split up into independent files and imported into  [`./scr/model.py`](./src/model.py)  accordingly. These files are also extensively commented and documented, here a quick rundown on the auxiliary files:
+
+* [`./src/augmentation.py`](./src/augmentation.py) - contains a custom Sequence to augment sample data
+* [`./src/data.py`](./src/data.py) - source for handling file system operations to store plots and models
+* [`./src/model.py`](./src/model.py) - as described above
+* [`./src/plotter.py`](./src/plotter.py) -utilities for plotting training and architecture graphs
+* [`./src/predict.py`](./src/predict.py) - utility to inspect predictions 
 
 ### Model Architecture and Training Strategy
 
@@ -137,7 +143,7 @@ The `./scr/model.py` file contains the code for training and saving the convolut
 
 My final model consists of several convolution layers with 5x5 and 3x3 filter sizes all having the same depth of 32. Which are connected to several Fully Connected layers through a Flatten layer.
 
-The model includes *softsign* activation functions to introduce nonlinearity and the input data is normalized and preprocessed in the model using a Keras lambda layer. See [model.py](./src/model.py) for details.
+The model includes *softsign* activation functions to introduce nonlinearity and the input data is normalized and preprocessed in the model using a Keras lambda layer. See [`./src/model.py`](./src/model.py) for details.
 
 #### 2. Attempts to reduce overfitting in the model
 
